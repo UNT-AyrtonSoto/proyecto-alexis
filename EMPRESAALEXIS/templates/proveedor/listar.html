@@ -1,0 +1,85 @@
+{% extends "plantilla.html" %}
+{% block content %}
+<div class="container">
+    <div class="container">
+        <div class="card card-outline card-info mt-3">
+            <div class="card-header">
+                <h1 class="card-title">LISTADO DE PROVEEDORES</h1>
+                <a href="" class='btn btn-sm btnprimary btn-add'><i class='fas fa-plus'></i> NUEVO</a> 
+            </div>
+            <div class="card-body">
+    
+                <div class="row">
+                    <div class="col-md-6 pull-right">
+                        <form action="" method="GET">
+    
+    
+                            <div class="input-group">
+                                <input type="text" name="buscar" id="buscar" cla ss="form-control" autofocus
+                                    placeholder="Buscar" value="">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-primary">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
+                            </div>
+    
+                        </form>
+                    </div>
+                </div>
+                <table class="table mt-2">
+                    <table id="tablasubfamilias" class="table table-striped mt4" style="width:100%">
+                        <thead class="bg-info text-white">
+                            <tr>
+                                <th>CODIGO</th>
+                                <th>NOMBRE</th>
+                                <th>
+                                    <center>OPCIONES</center>
+                                </th>
+                            </tr>
+                        </thead>
+                        {% if page_obj  %}
+                        {% for itemproveedor in page_obj %}
+                        <tr>
+                            <td>{{ itemproveedor.codproveedor }}</td>
+                            <td>{{ itemproveedor.nombres }}</td>
+                            <td style="text-align: center;">
+                                <a href="#" class="btn btn-info btnsm"><i class="fa
+            fa-edit"></i> Editar</a>
+            <a href="#" class="btn btn-danger btnsm"><i class="fa fa-trash"></i>
+                Eliminar</a> 
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        {% else %}
+                        <tr style="text-align: center;">
+                            <td colspan="3">
+                                <p>No hay Registros</p>
+                            </td>
+                        </tr>
+                        {% endif %}
+                    </table>
+                    <div class="pagination">
+                        <span class="step-links">
+                            {% if page_obj.has_previous %}
+                                <a href="?page=1">&laquo; first</a>
+                                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                            {% endif %}
+                    
+                            <span class="current">
+                                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                            </span>
+                    
+                            {% if page_obj.has_next %}
+                                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                            {% endif %}
+                        </span>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% block js %}
+{% endblock %}
+{% endblock %}
