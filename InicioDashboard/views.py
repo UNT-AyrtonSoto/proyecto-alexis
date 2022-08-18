@@ -1,7 +1,5 @@
 import pdb
 from django.shortcuts import redirect, render
-from InicioDashboard.models import Banco, Moneda, CuentaBancaria, Cliente,Proveedor
-from InicioDashboard.forms import BancoForm, MonedaForm, ClienteForm, ProveedorForm
 from django.db.models import Q
 from django.core.paginator import Paginator
 from django.contrib import messages 

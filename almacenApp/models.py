@@ -9,6 +9,6 @@ class Proveedor(models.Model):
     razonSocial= models.CharField(max_length=100)
     telefono=models.CharField(max_length=8)
     nroDocumento = models.CharField(max_length=15)
-    codDocumentoIdentidad = models.ForeignKey('DocumentoIdentidad', on_delete=models.CASCADE)
+    codDocumentoIdentidad = models.ForeignKey('ventasApp.DocumentoIdentidad', on_delete=models.CASCADE)
     activo = models.BooleanField(default=True)
     eliminado = models.BooleanField(default=False)

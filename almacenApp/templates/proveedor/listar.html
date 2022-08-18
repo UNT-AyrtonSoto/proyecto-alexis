@@ -1,9 +1,8 @@
 {% extends "plantilla.html" %}
 {% block content %}
 <div class="container">
-        <div class="card card-outline" style="width: 70rem;">
+        <div class="card card-outline mt-3" style="width: 70rem;">
             <div class="card-header">
-            </br> 
                 <h1 class="card-title">LISTADO DE PROVEEDORES</h1>
                 <a href="{% url 'agregarproveedor' %}" class='btn btn-sm btnprimary btn-add'><i class='fas fa-plus'></i> NUEVO</a> 
             </div>
@@ -19,8 +18,7 @@
                                 <th>Telefono</th>
                                 <th>Nro Documento</th>
                                 <th>Documento</th>
-                                <th>EDITAR</th>
-                                <th>ELIMINAR</th>
+                                <th>ACCIONES</th>
                             </tr>
                         </thead>
                         {% if page_obj  %}
@@ -30,13 +28,14 @@
                             <td>{{ itemproveedor.nombres }}</td>
                             <td>{{ itemproveedor.apellidos }}</td>
                             <td>{{ itemproveedor.direccion }}</td>
-                            <td>{{ itemproveedor.razonsocial }}</td>
+                            <td>{{ itemproveedor.razonSocial }}</td>
                             <td>{{ itemproveedor.telefono }}</td>
-                            <td>{{ itemproveedor.nrodocumento }}</td>
-                            <td>{{ itemproveedor.coddocumentoidentidad }}</td>
-                            <td><a href="{% url 'editarproveedor' itemproveedor.codproveedor %}" class="btn btn-info btnsm"><i class="fa fa-edit"></i></a></td>
-                            <td><a href="#" onclick="eliminarproveedor('{{itemproveedor.codproveedor}}','{{itemproveedor.nombres}}'),'{{itemproveedor.apellidos}}','{{itemproveedor.direccion}}','{{itemproveedor.razonsocial}}','{{itemproveedor.telefono}}','{{itemproveedor.nrodocumento}}','{{itemproveedor.coddocumentoidentidad}}'" class="btn btn-danger btnsm"><i class="fa fa-trash"></i>
-                                Eliminar</a> </td>
+                            <td>{{ itemproveedor.codDocumentoIdentidad_id }}</td>
+                            <td>{{ itemproveedor.nroDocumento }}</td>
+                            <td style="text-align: center;">
+                                <a href="{% url 'editarproveedor' itemproveedor.codproveedor %}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i></a>
+                                <a href="#" onclick="eliminarproveedor('{{itemproveedor.codproveedor}}'" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a> 
+                            </td>
                         </tr>
                         {% endfor %}
                         {% else %}

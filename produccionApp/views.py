@@ -16,7 +16,7 @@ def listarTrabajador(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context={'trabajador':trabajador}
-    return render(request,"listarTrabajadores.html",{'page_obj': page_obj})
+    return render(request,"trabajador/listar.html",{'page_obj': page_obj})
 def agregarTrabajador(request):
     if request.method=="POST":
         form=TrabajadorForm(request.POST)
@@ -27,14 +27,14 @@ def agregarTrabajador(request):
                 messages.info(request, "El Nro de documento del trabajador ya existe.")
                 form=TrabajadorForm()
                 context={'form':form}
-                return render(request,"agregar.html",context) 
+                return render(request,"trabajador/agregar.html",context) 
             else:
                 form.save() 
                 return redirect("listarTrabajador") 
     else:
         form=TrabajadorForm()
         context={'form':form} 
-        return render(request,"agregar.html",context) 
+        return render(request,"trabajador/agregar.html",context) 
 
 def editarTrabajador(request,id):
     trabajador=Trabajador.objects.get(codTrabajador=id)
@@ -46,7 +46,7 @@ def editarTrabajador(request,id):
     else:
         form=TrabajadorForm(instance=trabajador)
         context={"form":form} 
-        return render(request,"edit.html",context)
+        return render(request,"trabajador/editar.html",context)
 
 def eliminarTrabajador(request,id):
     trabajador=Trabajador.objects.get(codTrabajador=id) 

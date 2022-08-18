@@ -1,6 +1,6 @@
 from django import forms 
 from django.forms import fields 
-from .models import Banco, Moneda, CuentaBancaria, Cliente, Documento_Identidad
+from .models import Banco, Moneda, CuentaBancaria, Cliente, DocumentoIdentidad
 
 class BancoForm(forms.ModelForm):
     class Meta:
@@ -33,5 +33,5 @@ class ClienteForm(forms.ModelForm):
 
 class DocumentoIdentidadForms(forms.ModelForm):
     class Meta:
-        model=Documento_Identidad
-        fields=['codDocumentoidentidad','descripcion']
+        model=DocumentoIdentidad
+        fields=['codDocumentoIdentidad','descripcion']

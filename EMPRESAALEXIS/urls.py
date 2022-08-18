@@ -15,9 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from InicioDashboard.views import bienvenido,index, listarBanco, listarMoneda, agregarBanco, agregarMoneda,listarcliente,agregarcliente,editarcliente,listarproveedor,bienvenido,index,agregarproveedor,editarproveedor,eliminarproveedor
+from InicioDashboard.views import bienvenido,index
+from ventasApp.views import listarBanco, listarMoneda, agregarBanco, agregarMoneda,listarcliente,agregarcliente,editarcliente
+from almacenApp.views import listarproveedor, agregarproveedor,editarproveedor,eliminarproveedor
+from produccionApp.views import agregarTrabajador, editarTrabajador, eliminarTrabajador, listarTrabajador
 from django.contrib.auth import views
-from Trabajadores.views import agregarTrabajador, editarTrabajador, eliminarTrabajador, listarTrabajador
 
 
 
@@ -25,10 +27,13 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index,name='home'),
     path('bienvenido/',bienvenido ,name="bienvenido"), 
+# Bancos
     path('bancos/',listarBanco,name="listarBanco"), 
     path('bancos/add',agregarBanco,name="agregarBanco"), 
+# Monedas
     path('monedas/',listarMoneda,name="listarMoneda"), 
     path('monedas/add',agregarMoneda,name="agregarMoneda"), 
+# Clientes
     path('listarcliente/',listarcliente,name="listarcliente"),
     path('agregarcliente/',agregarcliente,name="agregarcliente"),
     path('editarcliente/<int:id>/',editarcliente,name="editarcliente"),

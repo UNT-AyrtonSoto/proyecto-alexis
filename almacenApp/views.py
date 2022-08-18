@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from ventasApp.models import DocumentoIdentidad
 from .forms import ProveedorForm
 from .models import Proveedor
 from django.core.paginator import Paginator

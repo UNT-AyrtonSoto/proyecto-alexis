@@ -9,6 +9,6 @@ class Trabajador (models.Model):
     correo = models.EmailField(max_length=100)
     fechaContratos= models.DateField(auto_now_add=True)
     nroDocumento = models.CharField(max_length=20)
-    codDocumentoIdentidad = models.ForeignKey('DocumentoIdentidad', on_delete=models.CASCADE)
+    codDocumentoIdentidad = models.ForeignKey('ventasApp.DocumentoIdentidad', on_delete=models.CASCADE)
     activo = models.BooleanField(default=True)
     eliminado = models.BooleanField(default=False)

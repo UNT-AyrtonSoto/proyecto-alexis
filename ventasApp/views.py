@@ -1,3 +1,4 @@
+import pdb
 from django.shortcuts import render, redirect
 from .forms import BancoForm, MonedaForm, ClienteForm
 from .models import Banco, Moneda, Cliente
@@ -93,6 +94,7 @@ def listarcliente(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context={'cliente':cliente}
+    # breakpoint()
     return render(request,"cliente/listar.html",{'page_obj': page_obj})
 
 def editarcliente(request,id):

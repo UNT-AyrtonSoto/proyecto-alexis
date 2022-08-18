@@ -1,7 +1,7 @@
 {% extends "plantilla.html" %} 
 {% block content %}
     <div class="container">
-        <div class="card card-outline card-info mt-3">
+        <div class="card card-outline mt-3">
         <div class="card-header">
             <h1 class="card-title">LISTADO DE CLIENTES</h1>
             <a href="{% url 'agregarcliente' %}" class='btn btn-sm btn-primary btnadd'><i class='fas fa-plus'></i> NUEVO</a>
@@ -32,11 +32,11 @@
                 <tr>
                     <td>{{itemcliente.codCliente}}</td>
                     <td>{{itemcliente.nombres}}</td>
-                    <td>{{itemcliente.codDocumentoIdentidad}}</td>
+                    <td>{{itemcliente.codDocumentoIdentidad_id}}</td>
                     <td>{{itemcliente.nroDocumento}}</td>
                     <td style="text-align: center;">
-                        <a href="{% url 'editarcliente' itemcliente.codCliente %}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i> Editar</a>
-                        <a href="#" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Eliminar</a>
+                        <a href="{% url 'editarcliente' itemcliente.codCliente %}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i></a>
+                        <a href="#" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
                     </td>
                 </tr>
                 {% endfor %}

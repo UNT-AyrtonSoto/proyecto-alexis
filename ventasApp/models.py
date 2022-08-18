@@ -1,7 +1,16 @@
 from pickle import TRUE
+from xml.etree.ElementTree import tostring
 from django.db import models
 
 # Create your models here.
+class DocumentoIdentidad(models.Model):
+    codDocumentoIdentidad=models.CharField(max_length=8, primary_key=TRUE)
+    descripcion=models.CharField(max_length=40)
+    eliminado = models.BooleanField(default=False)
+    
+    def __str__(self) -> str:
+        return self.descripcion
+    
 class Banco(models.Model):
     idBanco=models.AutoField(primary_key=True)
     nombre=models.CharField(max_length=50)
@@ -27,6 +36,9 @@ class CuentaBancaria(models.Model):
     activo = models.BooleanField(default=True)
     eliminado = models.BooleanField(default=False)
     
+    def __str__(self):
+        return self.name
+    
 class Cliente(models.Model):
     codCliente=models.AutoField(primary_key=True)
     nombres=models.CharField(max_length=50)
@@ -44,9 +56,4 @@ class Cliente(models.Model):
     def __str__(self):
         return self.nombres + ' ' + self.apellidos
 
-#PROVEEDORES
-class DocumentoIdentidad(models.Model):
-    codDocumentoIdentidad=models.CharField(max_length=8, primary_key=TRUE)
-    descripcion=models.CharField(max_length=40)
-    eliminado = models.BooleanField(default=False)
 

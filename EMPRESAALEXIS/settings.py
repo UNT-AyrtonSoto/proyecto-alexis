@@ -37,7 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'Trabajadores',
+    'ventasApp',
+    'almacenApp',
+    'produccionApp',
     'InicioDashboard',
     'crispy_forms',
 ]
@@ -57,7 +59,11 @@ ROOT_URLCONF = 'EMPRESAALEXIS.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'EMPRESAALEXIS/templates'),os.path.join(BASE_DIR, 'InicioDashboard/templates'),os.path.join(BASE_DIR, 'Trabajadores/templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'EMPRESAALEXIS/templates'),
+                 os.path.join(BASE_DIR, 'InicioDashboard/templates'),
+                 os.path.join(BASE_DIR, 'almacenApp/templates'),
+                 os.path.join(BASE_DIR, 'produccionApp/templates'),
+                 os.path.join(BASE_DIR, 'ventasApp/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
