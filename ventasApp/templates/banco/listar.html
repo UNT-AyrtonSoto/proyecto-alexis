@@ -1,0 +1,68 @@
+{% extends 'plantilla.html' %}
+{% block content %}
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h1 class="card-title">BANCOS</h1>
+                <a href="{% url 'agregarBanco' %}" class="btn btn-sm btn-primary">Nuevo</a>
+            </div>
+            <div class="card-body">
+                {% comment %} <div class="row">
+                    <div class="col-md-6 pull-right">
+                        <form action="" method="GET">
+                            <div class="input-group">
+                                <input type="text" name="buscar" id="buscar" class="form-control" autofocus placeholder="Buscar" value=""><span class="input-group-btn">
+                                <button class="btn btn-primary"><i class="fa fa-search"></i></button></span>
+                            </div>
+                        </form>
+                    </div>
+                </div> {% endcomment %}
+                <table id="tablaBancos" class="table table-striped mt4" style="width:100%">
+                    <thead class="bg-info text-white">
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Pais</th>
+                            {% comment %} <th><center>Acciones</center></th> {% endcomment %}
+                        </tr>
+                    </thead>
+                    {% if page_obj %}
+                    {% for itemBanco in page_obj %}
+                    <tr>
+                        <td>{{ itemBanco.nombre}}</td>
+                        <td>{{ itemBanco.pais }}</td>
+                        {% comment %} <td style="text-align: center;">
+                            <a href="" class="btn btn-info btn-sm"><i class="fa fa-edit"></i> Editar</a>
+                            <a href="#" onclick="eliminarLibro('{{itemlibro.idlibro}}','{{itemlibro.titulo}}')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Eliminar</a>
+                        </td> {% endcomment %}
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr style="text-align: center;">
+                        <td colspan="6">
+                            <p>No hay Registros</p>
+                        </td>
+                    </tr>
+                    {% endif %}
+                </table>
+                <div class="pagination">
+                    <span class="step-links">
+                        {% if page_obj.has_previous %}
+                            <a href="?page=1">&laquo; first</a>
+                            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                        {% endif %}
+                
+                        <span class="current">
+                            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                        </span>
+                
+                        {% if page_obj.has_next %}
+                            <a href="?page={{ page_obj.next_page_number }}">siguiente</a>
+                            <a href="?page={{ page_obj.paginator.num_pages }}">anterior &raquo;</a>
+                        {% endif %}
+                    </span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock content %}

@@ -1,0 +1,40 @@
+{% extends "plantilla.html" %}
+{% block content %}
+{% load crispy_forms_tags %}
+<div class="container">
+    <div class="card mx-4 my-4">
+        <div class="card-header card-info">
+            <h1 class="card-title">AGREGAR PROVEEDOR</h1>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                {{ form | crispy}}
+                <div class="d-flex justify-content-end">
+                    <a href="{% url 'listarproveedor' %}" class="btn
+   btnsecondary">Cancelar</a> &nbsp;
+                    <button type="submit" class="btn
+btnprimary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock%}
+
+
+{% block js %}
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {% if messages %}
+    {% for m in messages %}
+        <script>
+            Swal.fire({
+            "title": "Warning",
+            "text":"{{m}}",
+            "icon":"info"
+            })
+        </script>
+    {% endfor %}
+    {% endif %}
+{% endblock%} 

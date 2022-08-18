@@ -1,0 +1,107 @@
+{% extends "plantilla.html" %}
+{% block content %}
+<div class="container">
+        <div class="card card-outline" style="width: 70rem;">
+            <div class="card-header">
+            </br> 
+                <h1 class="card-title">LISTADO DE PROVEEDORES</h1>
+                <a href="{% url 'agregarproveedor' %}" class='btn btn-sm btnprimary btn-add'><i class='fas fa-plus'></i> NUEVO</a> 
+            </div>
+            <div class="card-body">
+                    <table id="tablasubfamilias" class="table table-striped" style="width:100%">
+                        <thead class="bg-info ">
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombres</th>
+                                <th>Apellidos</th>
+                                <th>Direccion</th>
+                                <th>Razon Social</th>
+                                <th>Telefono</th>
+                                <th>Nro Documento</th>
+                                <th>Documento</th>
+                                <th>EDITAR</th>
+                                <th>ELIMINAR</th>
+                            </tr>
+                        </thead>
+                        {% if page_obj  %}
+                        {% for itemproveedor in page_obj %}
+                        <tr>
+                            <td>{{ itemproveedor.codproveedor }}</td>
+                            <td>{{ itemproveedor.nombres }}</td>
+                            <td>{{ itemproveedor.apellidos }}</td>
+                            <td>{{ itemproveedor.direccion }}</td>
+                            <td>{{ itemproveedor.razonsocial }}</td>
+                            <td>{{ itemproveedor.telefono }}</td>
+                            <td>{{ itemproveedor.nrodocumento }}</td>
+                            <td>{{ itemproveedor.coddocumentoidentidad }}</td>
+                            <td><a href="{% url 'editarproveedor' itemproveedor.codproveedor %}" class="btn btn-info btnsm"><i class="fa fa-edit"></i></a></td>
+                            <td><a href="#" onclick="eliminarproveedor('{{itemproveedor.codproveedor}}','{{itemproveedor.nombres}}'),'{{itemproveedor.apellidos}}','{{itemproveedor.direccion}}','{{itemproveedor.razonsocial}}','{{itemproveedor.telefono}}','{{itemproveedor.nrodocumento}}','{{itemproveedor.coddocumentoidentidad}}'" class="btn btn-danger btnsm"><i class="fa fa-trash"></i>
+                                Eliminar</a> </td>
+                        </tr>
+                        {% endfor %}
+                        {% else %}
+                        <tr style="text-align: center;">
+                            <td colspan="10">
+                                <p>No hay Registros</p>
+                            </td>
+                        </tr>
+                        {% endif %}
+                    </table>
+                    <div class="pagination">
+                        <span class="step-links">
+                            {% if page_obj.has_previous %}
+                                <a href="?page=1">&laquo; first</a>
+                                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                            {% endif %}
+                    
+                            <span class="current">
+                                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                            </span>
+                    
+                            {% if page_obj.has_next %}
+                                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                            {% endif %}
+                        </span>
+                    </div>
+            </div>
+        </div>
+</div>
+{% block js %}
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{% if messages %}
+{% for m in messages %}
+<script>
+    Swal.fire({
+        "title": "Eliminado",
+        "text": "{{m}}",
+        "icon": "success"
+    })
+</script>
+{% endfor %}
+{% endif %}
+
+<script>
+    function eliminarproveedor(codproveedor,nombres,apellidos,direccion,razonsocial,telefono,nrodocumento,coddocumentoidentidad) {
+        Swal.fire({
+            "title": "¿Realmente desea eliminar Registro?",
+            "text": "Codigo :" + codproveedor + " Nombres :" + nombres + " Apellidos :" + apellidos + " Direccion :" + direccion + " Razon Social :" + razonsocial + " Telefono :" + telefono + " Nro Documento :" + nrodocumento + " Documento :" + coddocumentoidentidad,
+            "icon": "question",
+            "showCancelButton": true,
+            "cancelButtonText": "No",
+            "confirmButtonText": "Si",
+            "reverseButton": true,
+            "confirmButtonColor": "#dc3545"
+        })
+            .then(function (result) {
+                if (result.isConfirmed) {
+                    window.location.href = "/eliminarproveedor/" + codproveedor + "/"
+                }
+            })
+    }
+</script>
+{% endblock %}
+
+
+{% endblock %}
+

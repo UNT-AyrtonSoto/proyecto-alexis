@@ -4,8 +4,8 @@
     <div class="container">
         <div class="card card-outline card-info mt-3">
             <div class="card-header">
-                <h1 class="card-title">LISTADO DE PROVEEDORES</h1>
-                <a href="" class='btn btn-sm btnprimary btn-add'><i class='fas fa-plus'></i> NUEVO</a> 
+                <h1 class="card-title">LISTADO DE TRABAJADORES</h1>
+                <a href="{% url 'agregarTrabajador' %}" class='btn btn-sm btn-primary btn-add'><i class='fas fa-plus'></i> NUEVO TRABAJADOR</a> 
             </div>
             <div class="card-body">
     
@@ -33,27 +33,35 @@
                             <tr>
                                 <th>CODIGO</th>
                                 <th>NOMBRE</th>
+                                <th>APELLIDOS</th>
+                                <th>DIRECCION</th>
+                                <th>CORREO</th>
+                                <th>Nro DOCUMENTO</th>
                                 <th>
                                     <center>OPCIONES</center>
                                 </th>
                             </tr>
                         </thead>
                         {% if page_obj  %}
-                        {% for itemproveedor in page_obj %}
+                        {% for itemTrabajador in page_obj %}
                         <tr>
-                            <td>{{ itemproveedor.codproveedor }}</td>
-                            <td>{{ itemproveedor.nombres }}</td>
+                            <td>{{ itemTrabajador.codTrabajador }}</td>
+                            <td>{{ itemTrabajador.nombre }}</td>
+                            <td>{{ itemTrabajador.apellidos }}</td>
+                            <td>{{ itemTrabajador.direccion }}</td>
+                            <td>{{ itemTrabajador.correo }}</td>
+                            <td>{{ itemTrabajador.nroDocumento}}</td>
                             <td style="text-align: center;">
-                                <a href="#" class="btn btn-info btnsm"><i class="fa
+                                <a href="{% url 'editarTrabajador' itemTrabajador.codTrabajador %}" class="btn btn-info btnsm"><i class="fa
             fa-edit"></i> Editar</a>
-            <a href="#" class="btn btn-danger btnsm"><i class="fa fa-trash"></i>
+            <a href="#" onclick="eliminarTrabajador('{{itemTrabajador.codTrabajador}}','{{itemTrabajador.nombre}}')" class="btn btn-danger btnsm"><i class="fa fa-trash"></i>
                 Eliminar</a> 
                             </td>
                         </tr>
                         {% endfor %}
                         {% else %}
                         <tr style="text-align: center;">
-                            <td colspan="3">
+                            <td colspan="7">
                                 <p>No hay Registros</p>
                             </td>
                         </tr>
