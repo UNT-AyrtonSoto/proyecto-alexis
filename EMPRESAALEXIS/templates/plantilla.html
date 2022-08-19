@@ -28,12 +28,12 @@
 </head>
 <body>
 	<div class="wrapper">
-		<div class="main-header">
+		<div class="main-header" style="background-color: #5D8A00;height: 80px;  align-items: center; ">
 			<!-- Logo Header -->
-			<div class="logo-header" style="background-color: #5D8A00;">
+			<div class="logo-header" style="padding-top: 4px">
 				
 				<a href="{% url 'bienvenido' %}" class="logo">
-					<img src="{% static '/img/LOGOAlexis.png' %}" alt="navbar brand" class="navbar-brand" style="width: 60px; border-radius: 50%;">
+					<img src="{% static '/img/LOGOAlexis.png' %}" alt="navbar brand" class="navbar-brand" style="width: 70px; border-radius: 50%;">
 				</a>
 				<button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon">
@@ -41,7 +41,7 @@
 					</span>
 				</button>
 				<button class="topbar-toggler more"><i class="icon-options-vertical"></i></button>
-				<div class="nav-toggle">
+				<div class="nav-toggle" style="padding-top: 8px">
 					<button class="btn btn-toggle toggle-sidebar">
 						<i class="icon-menu"></i>
 					</button>
@@ -50,10 +50,10 @@
 			<!-- End Logo Header -->
 
 			<!-- Navbar Header -->
-			<nav class="navbar navbar-header navbar-expand-lg" style="background-color: #5D8A00;">
+			<nav class="navbar navbar-header navbar-expand-lg" style="height: 100%;">
 				
-				<div class="container-fluid">
-					
+				<div class="container-fluid" >
+					<h1 style="color: white; font-style: italic; font-weight: bold; margin: 0;">FABRICACIONES ALEXIS</h1>
 					<ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
 						<li class="nav-item toggle-nav-search hidden-caret">
 							<a class="nav-link" data-toggle="collapse" href="#search-nav" role="button" aria-expanded="false" aria-controls="search-nav">
@@ -81,12 +81,6 @@
 									</li>
 									<li>
 										<div class="dropdown-divider"></div>
-										<a class="dropdown-item" href="#">My Profile</a>
-										<a class="dropdown-item" href="#">My Balance</a>
-										<a class="dropdown-item" href="#">Inbox</a>
-										<div class="dropdown-divider"></div>
-										<a class="dropdown-item" href="#">Account Setting</a>
-										<div class="dropdown-divider"></div>
 										<a class="dropdown-item" href="#">Logout</a>
 									</li>
 								</div>
@@ -99,7 +93,7 @@
 		</div>
 
 		<!-- Sidebar -->
-		<div class="sidebar sidebar-style-2" style="background-color: #F9E000;">			
+		<div class="sidebar sidebar-style-2" style="background-color: #F9E000; padding-top: 25px;">			
 			<div class="sidebar-wrapper scrollbar scrollbar-inner">
 				<div class="sidebar-content">
 					<div class="user">
@@ -123,16 +117,7 @@
 											<span class="link-collapse">My Profile</span>
 										</a>
 									</li>
-									<li>
-										<a href="#edit">
-											<span class="link-collapse">Edit Profile</span>
-										</a>
-									</li>
-									<li>
-										<a href="#settings">
-											<span class="link-collapse">Settings</span>
-										</a>
-									</li>
+									
 								</ul>
 							</div>
 						</div>
