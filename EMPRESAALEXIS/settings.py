@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'almacenApp',
     'produccionApp',
     'InicioDashboard',
+    'seguridadApp',
     'crispy_forms',
 ]
 
@@ -63,7 +64,8 @@ TEMPLATES = [
                  os.path.join(BASE_DIR, 'InicioDashboard/templates'),
                  os.path.join(BASE_DIR, 'almacenApp/templates'),
                  os.path.join(BASE_DIR, 'produccionApp/templates'),
-                 os.path.join(BASE_DIR, 'ventasApp/templates')],
+                 os.path.join(BASE_DIR, 'ventasApp/templates'),
+                 os.path.join(BASE_DIR, 'seguridadApp/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -144,3 +146,5 @@ MESSAGE_TAGS = {
     message_constants.WARNING: 'warning',
     message_constants.ERROR: 'danger',
 }
+
+# AUTH_USER_MODEL = 'seguridadApp.NuevoUsuario'
