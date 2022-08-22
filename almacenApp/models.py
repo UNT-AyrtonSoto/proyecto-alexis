@@ -87,5 +87,5 @@ class DetalleOrdenCompra(models.Model):
     cantidad=models.IntegerField()
     precioUnitario=models.DecimalField(decimal_places=2, max_digits=8)
     codMaterial=models.IntegerField(null=True)
-    codProductoProveedor=models.IntegerChoices(null=True)
+    codProductoProveedor=models.IntegerField(null=True)
     eliminado=models.BooleanField(default=False)
