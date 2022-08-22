@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from InicioDashboard.views import bienvenido,index
 from ventasApp.views import listarBanco, listarMoneda, agregarBanco, agregarMoneda,listarcliente,agregarcliente,editarcliente
-from almacenApp.views import agregarNotaAlmacen, editarNotaAlmacen, eliminarNotaAlmacen, listarNotasAlmacen, listarproveedor, agregarproveedor,editarproveedor,eliminarproveedor
+from almacenApp.views import agregarNotaAlmacen, agregarOrdenCompra, editarNotaAlmacen, editarOrdenCompra, eliminarNotaAlmacen, eliminarOrdenCompra, listarNotasAlmacen, listarOrdenesCompra, listarproveedor, agregarproveedor,editarproveedor,eliminarproveedor
 from produccionApp.views import agregarTrabajador, editarTrabajador, eliminarTrabajador, listarTrabajador
 from django.contrib.auth import views
 
@@ -53,5 +53,10 @@ urlpatterns = [
     path('notasalmacen/add',agregarNotaAlmacen,name='agregarNotaAlmacen'),
     path('editarnotaalmacen/<int:id>/',editarNotaAlmacen,name="editarnotaalmacen"), 
     path('eliminarnotaalmacen/<int:id>/',eliminarNotaAlmacen,name="eliminarnotaalmacen"), 
+#ORDENES COMPRA
+    path('ordenescompra/',listarOrdenesCompra,name='listarOrdenesCompra'),
+    path('ordenescompra/add',agregarOrdenCompra,name='agregarOrdenCompra'),
+    path('editarordenescompra/<int:id>/',editarOrdenCompra,name="editarOrdenCompra"), 
+    path('eliminarordenescompra/<int:id>/',eliminarOrdenCompra,name="eliminarOrdenCompra"), 
 ]
 

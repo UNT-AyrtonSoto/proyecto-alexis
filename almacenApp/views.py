@@ -1,18 +1,20 @@
+from dataclasses import fields
 import json
 from multiprocessing import context
 import pdb
+from pickle import FALSE
 from django.core import serializers
 from django.shortcuts import render, redirect
 from ventasApp.models import DocumentoIdentidad
-from .forms import NotaAlmacenForm, ProveedorForm
-from .models import DetalleNotaAlmacen, NotaAlmacen, Proveedor
+from .forms import NotaAlmacenForm, OrdenCompraform, ProveedorForm
+from .models import DetalleNotaAlmacen, DetalleOrdenCompra, NotaAlmacen, OrdenCompra, Proveedor
 from django.core.paginator import Paginator
 from django.contrib import messages 
 
 # Create your views here.
 #PROVEEDORES
 def listarproveedor(request):
-    proveedor=Proveedor.objects.all()
+    proveedor=Proveedor.objects.filter(eliminado=False)
     paginator = Paginator(proveedor, 3)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -55,12 +57,13 @@ def editarproveedor(request,id):
 
 def eliminarproveedor(request,id):
     proveedor=Proveedor.objects.get(codproveedor=id) 
+    proveedor.eliminado = True
     proveedor.save()
     return redirect("listarproveedor") 
 
 #NOTAS ALMACEN
 def listarNotasAlmacen(request):
-    notasAlmacen = NotaAlmacen.objects.all()
+    notasAlmacen = NotaAlmacen.objects.filter(eliminado=False)
     paginator = Paginator(notasAlmacen, 5)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -107,8 +110,9 @@ def agregarNotaAlmacen(request):
 
 def editarNotaAlmacen(request,id):
     notaAlmacen = NotaAlmacen.objects.get(codNotaAlmacen=id)
-    detalle = DetalleNotaAlmacen.objects.filter(codNotaAlmacen=id)
-    strDetalle = serializers.serialize("json",detalle)
+    detalle = DetalleNotaAlmacen.objects.filter(codNotaAlmacen=id).values('codDetalleNota','codNotaAlmacen','descripcion','cantidad','eliminado')
+    # strDetalle = serializers.serialize("json",list(detalle),fields={'descripcion'})
+    strDetalle = json.dumps([dict(item) for item in detalle])
     if request.method=="POST":
         form=NotaAlmacenForm(request.POST)
         if form.is_valid():
@@ -136,14 +140,14 @@ def editarNotaAlmacen(request,id):
             notaAlmacen.save()
             
             for detalle in detalleJSON:
-                if(detalle.idDetalle==0):
+                if(detalle['codDetalleNota']==0):
                     tempDetalle = DetalleNotaAlmacen(descripcion=detalle['descripcion'],cantidad=detalle['cantidad'],codNotaAlmacen=notaAlmacen, eliminado=0)
                     tempDetalle.save()
-                    breakpoint()
                 else:
-                    tempDetalle = DetalleNotaAlmacen.objects.get(codDetalleNota=detalle['idDetalle'])
+                    tempDetalle = DetalleNotaAlmacen.objects.get(codDetalleNota=detalle['codDetalleNota'])
                     tempDetalle.descripcion=detalle['descripcion']
                     tempDetalle.cantidad=detalle['cantidad']
+                    tempDetalle.eliminado=detalle['eliminado']
                     tempDetalle.save()
             return redirect('listarNotasAlmacen')    
     else:
@@ -163,9 +167,132 @@ def editarNotaAlmacen(request,id):
         return render(request, "notasAlmacen/editar.html",context)
 
 def eliminarNotaAlmacen(request,id):
-    pass
+    notaAlmacen = NotaAlmacen.objects.get(codNotaAlmacen=id)
+    notaAlmacen.eliminado = True
+    notaAlmacen.save()
+    return redirect("listarNotasAlmacen")
 
+#ORDENES COMPRA
+def listarOrdenesCompra(request):
+    ordenesCompra = OrdenCompra.objects.filter(eliminado=False)
+    paginator = Paginator(ordenesCompra, 5)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request,"ordenCompra/listar.html",{'page_obj': page_obj})
 
+def agregarOrdenCompra(request):
+    form = OrdenCompraform()
+    if request.method=="POST":
+        form = OrdenCompraform(request.POST)
+        if form.is_valid():
+            trabajador = form.cleaned_data.get('trabajador')
+            proveedor = form.cleaned_data.get('proveedor')
+            igv = form.cleaned_data.get('igv')
+            fecha = form.cleaned_data.get('fecha')
+            descuento = form.cleaned_data.get('descuento')
+            estado = form.cleaned_data.get('estado')
+            observaciones = form.cleaned_data.get('observaciones')
+            detalleSTR = form.cleaned_data.get('detalle')
+            
+            # breakpoint()
+            detalleJSON = json.loads(detalleSTR)
+            
+            # breakpoint()
+            
+            ordencompra = OrdenCompra()
+            ordencompra.codTrabajador = trabajador
+            ordencompra.codProveedor = proveedor
+            ordencompra.igv = igv
+            ordencompra.fecha = fecha
+            ordencompra.descuento = descuento
+            ordencompra.estado = estado
+            ordencompra.observaciones = observaciones
+            ordencompra.eliminado = 0
+            # breakpoint()
+            
+            ordencompra.save()
+            
+            for detalle in detalleJSON:
+                tempDetalle = DetalleOrdenCompra(descripcion=detalle['descripcion'],cantidad=detalle['cantidad'],precioUnitario=detalle['precio'],codMaterial=None,codProductoProveedor=None,codOrdenCompra=ordencompra, eliminado=0)
+                tempDetalle.save()
+            breakpoint()
+            return redirect('listarOrdenesCompra')    
+        else:
+            form = OrdenCompraform()
+    context = {'form':form}
+    return render(request,"ordencompra/agregar.html",context)     
+
+def editarOrdenCompra(request,id):
+    ordenCompra = OrdenCompra.objects.get(codOrdenCompra=id)
+    detalle = DetalleOrdenCompra.objects.filter(codOrdenCompra=id).values('codDetalleOrdenCompra','codOrdenCompra','descripcion','cantidad','eliminado')
+    # strDetalle = serializers.serialize("json",list(detalle),fields={'descripcion'})
+    strDetalle = json.dumps([dict(item) for item in detalle])
+    if request.method=="POST":
+        form=OrdenCompraform(request.POST)
+        if form.is_valid():
+            codTrabajador = form.cleaned_data.get('trabajador')
+            codProveedor = form.cleaned_data.get('proveedor')
+            fecha = form.cleaned_data.get('proveedor')
+            estado = form.cleaned_data.get('fecha')
+            igv = form.cleaned_data.get('igv')
+            descuento = form.cleaned_data.get('descuento')
+            observaciones = form.cleaned_data.get('observaciones')
+            detalleSTR = form.cleaned_data.get('detalle')
+            
+            # breakpoint()
+            detalleJSON = json.loads(detalleSTR)
+            
+            # breakpoint()
+            
+            ordenCompra.codTrabajador = codTrabajador
+            ordenCompra.codProveedor = codProveedor
+            ordenCompra.fecha = fecha
+            ordenCompra.estado = estado
+            ordenCompra.igv = igv
+            ordenCompra.descuento = descuento
+            ordenCompra.observaciones = observaciones
+            ordenCompra.eliminado = 0
+            # breakpoint()
+            
+            ordenCompra.save()
+            
+            for detalle in detalleJSON:
+                if(detalle['codDetalleOrdenCompra']==0):
+                    tempDetalle = DetalleOrdenCompra(descripcion=detalle['descripcion'],cantidad=detalle['cantidad'],codOrdenCompra=OrdenCompra, eliminado=0)
+                    tempDetalle.save()
+                else:
+                    tempDetalle = DetalleOrdenCompra.objects.get(codDetalleOrdenCompra=detalle['codDetalleOrdenCompra'])
+                    tempDetalle.codOrdenCompra=detalle['codOrdenCompra']
+                    tempDetalle.descripcion=detalle['descripcion']
+                    tempDetalle.cantidad=detalle['cantidad']
+                    tempDetalle.precioUnitario=detalle['precioUnitario']
+                    tempDetalle.codMaterial=detalle['codMaterial']
+                    tempDetalle.codProductoProveedor=detalle['codProductoProveedor']
+                    tempDetalle.eliminado=detalle['eliminado']
+                    tempDetalle.save()
+            return redirect('listarOrdenesCompra')    
+    else:
+        
+        initial_dic = {
+            'trabajador': ordenCompra.codTrabajador,
+            'proveedor': ordenCompra.codProveedor,
+            'igv': ordenCompra.igv,
+            'fecha': ordenCompra.fecha,
+            'descuento': ordenCompra.descuento,
+            'estado': ordenCompra.estado,
+            'observaciones': ordenCompra.observaciones,
+            'detalle': strDetalle,
+        }
+        
+        form=OrdenCompraform(request.POST or None, initial=initial_dic)
+        context={"form":form, "detalle": detalle}
+        return render(request, "ordenCompra/editar.html",context)
+
+def eliminarOrdenCompra(request,id):
+    ordencompra = OrdenCompra.objects.get(codOrdenCompra=id)
+    ordencompra.eliminado = True
+    ordencompra.save()
+    return redirect("listarOrdenesCompra")
 
 
 

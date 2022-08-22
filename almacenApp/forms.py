@@ -4,7 +4,7 @@ from django import forms
 from django.forms import fields
 from produccionApp.models import Trabajador 
 from ventasApp.models import DocumentoIdentidad
-from .models import EstadoNota, MotivoNota, NotaAlmacen, Proveedor
+from .models import IGV, EstadoNota, EstadoOrdenCompra, MotivoNota, NotaAlmacen, Proveedor
 
 #Trabajador
 class ProveedorForm(forms.ModelForm):
@@ -25,3 +25,11 @@ class NotaAlmacenForm(forms.Form):
     #     model = NotaAlmacen
     #     fields = ['tipoNota','fecha','trabajador','motivo','estado','codVenta','detalle']
     
+class OrdenCompraform(forms.Form):
+    trabajador=forms.ModelChoiceField(queryset=Trabajador.objects.all())
+    proveedor=forms.ModelChoiceField(queryset=Proveedor.objects.all())
+    igv=forms.ModelChoiceField(queryset=IGV.objects.all())
+    fecha=forms.DateField()
+    descuento = forms.DecimalField(decimal_places=2,max_digits=8)
+    estado = forms.ModelChoiceField(queryset=EstadoOrdenCompra.objects.all())
+    observaciones = forms.Textarea()
