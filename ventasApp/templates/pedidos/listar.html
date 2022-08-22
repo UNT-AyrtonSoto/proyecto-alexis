@@ -1,0 +1,105 @@
+{% extends "plantilla.html" %}
+{% block content %}
+<div class="container">
+        <div class="card card-outline mt-3" style="width: 70rem;">
+            <div class="card-header">
+                <h1 class="card-title">PEDIDOS</h1>
+                <a href="{% url 'agregarPedido' %}" class='btn btn-sm btnprimary btn-add'><i class='fas fa-plus'></i> NUEVA</a> 
+            </div>
+            <div class="card-body">
+                    <table id="tablasubfamilias" class="table table-striped" style="width:100%">
+                        <thead class="bg-info ">
+                            <tr>
+                                <th>Codigo</th>
+                                <th>Cliente</th>
+                                <th>Estado</th>
+                                <th>Tipo</th>
+                                <th>Fecha Registro</th>
+                                <th>Fecha Entrega</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        {% if page_obj  %}
+                        {% for itempedido in page_obj %}
+                        <tr>
+                            <td>{{ itempedido.codNotaAlmacen }}</td>
+                            <td>{{ itempedido.codNotaAlmacen }}</td>
+                            <td>{{ itempedido.codNotaAlmacen }}</td>
+                            <td>{{ itempedido.codNotaAlmacen }}</td>
+                            <td>{{ itempedido.codNotaAlmacen }}</td>
+                            <td>{{ itempedido.fecha }}</td>
+                            <td>{{ itempedido.tipoNota }}</td>
+                            <td>{{ itempedido.motivo }}</td>
+                            <td style="text-align: center;">
+                                {% comment %} <a href="{% url '' %}" class="btn btn-primary btn-sm"><i class="fa fa-eye"></i></a> {% endcomment %}
+                                <a href="{% url 'editarnotaalmacen' itempedido.codNotaAlmacen %}" class="btn btn-success btn-sm"><i class="fa fa-edit"></i></a>
+                                <a href="#" onclick="eliminarNotaAlmacen({{itempedido.codNotaAlmacen}})" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a> 
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        {% else %}
+                        <tr style="text-align: center;">
+                            <td colspan="10">
+                                <p>No hay Registros</p>
+                            </td>
+                        </tr>
+                        {% endif %}
+                    </table>
+                    <div class="pagination">
+                        <span class="step-links">
+                            {% if page_obj.has_previous %}
+                                <a href="?page=1">&laquo; first</a>
+                                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                            {% endif %}
+                    
+                            <span class="current">
+                                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                            </span>
+                    
+                            {% if page_obj.has_next %}
+                                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                            {% endif %}
+                        </span>
+                    </div>
+            </div>
+        </div>
+</div>
+{% block js %}
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{% if messages %}
+{% for m in messages %}
+<script>
+    Swal.fire({
+        "title": "Eliminado",
+        "text": "{{m}}",
+        "icon": "success"
+    })
+</script>
+{% endfor %}
+{% endif %}
+
+<script>
+    function eliminarNotaAlmacen(id) {
+        Swal.fire({
+            "title": "¡Aviso!",
+            "text": "¿Realmente desea eliminar Registro?",
+            "icon": "question",
+            "showCancelButton": true,
+            "cancelButtonText": "No",
+            "confirmButtonText": "Si",
+            "reverseButton": true,
+            "confirmButtonColor": "#dc3545"
+        })
+            .then(function (result) {
+                if (result.isConfirmed) {
+                    window.location.href = "/eliminarnotaalmacen/" + id + "/"
+                }
+            })
+    }
+</script>
+{% endblock %}
+
+
+{% endblock %}
+

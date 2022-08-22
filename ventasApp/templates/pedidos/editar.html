@@ -1,0 +1,155 @@
+{% extends "plantilla.html" %}
+{% block content %}
+{% load crispy_forms_tags %}
+<div class="container">
+    <div class="card mx-4 my-4">
+        <div class="card-header card-info">
+            <h1 class="card-title">EDITAR NOTA ALMACEN</h1>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                {{ form | crispy}}
+                <div class="row mt-3 card border mx-4 py-3">
+                    <div class="col-12">
+                        <h5>DETALLE:</h5>
+                    </div>
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-5">
+                                <label for="descripcionDetalle">Descripcion</label>
+                                <input class="form-control" id="descripcionDetalle"/>
+                            </div>
+                            <div class="col-5">
+                                <label for="cantidadDetalle">Cantidad</label>
+                                <input class="form-control" type="number" id="cantidadDetalle"/>
+                            </div>
+                            <div class="col-2 d-flex py-3">
+                                <button class="btn btn-sm btn-primary align-center" type="button" onclick="agregarDetalle()">Agregar</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <table class="table w-100">
+                            <thead>
+                                <th>Descripcion</th>
+                                <th><center>Cantidad</center></th>
+                                <th><center>Eliminar</center></th>
+                            </thead>
+                            <tbody id="tablaDetalle">
+                            </tbody>
+                        </table>
+                    </div>                    
+                </div>
+                <div class="d-flex justify-content-end">
+                    <a href="{% url 'listarNotasAlmacen' %}" class="btn
+   btnsecondary">Cancelar</a> &nbsp;
+                    <button type="submit" class="btn
+btnprimary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock%}
+
+
+{% block js %}
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {% if messages %}
+    {% for m in messages %}
+        <script>
+            Swal.fire({
+            "title": "Warning",
+            "text":"{{m}}",
+            "icon":"info"
+            })
+        </script>
+    {% endfor %}
+    {% endif %}
+
+    <script>
+
+        arrDetalle = []
+        tabla=document.getElementById("tablaDetalle")
+        descripcion=document.getElementById("descripcionDetalle")
+        cantidad=document.getElementById("cantidadDetalle")
+        detalleHTML = document.getElementById("id_detalle")
+
+        function agregarDetalle(){
+            let tempRow=document.createElement("tr")
+            tempRow.innerHTML="<td>"+descripcion.value+"</td><td style='text-align: center;'>"+cantidad.value+"</td>"+`
+                <td style="text-align: center;">
+                    <a href="#" onclick="eliminarDetalle(${arrDetalle.length})" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a> 
+                </td>`
+            tabla.append(tempRow)
+            
+            arrDetalle.push({codDetalleNota: 0, descripcion:descripcion.value,cantidad:cantidad.value,eliminado:0})
+
+            descripcion.value = ""
+            cantidad.value=""
+            
+            detalleHTML.value=JSON.stringify(arrDetalle);
+            
+            console.log(arrDetalle)
+        }
+
+        function eliminarDetalle(position){
+            element = arrDetalle[position]
+            if(element.codDetalleNota==0){
+                arrDetalle.splice(position,1);
+            }else{
+                arrDetalle[position].eliminado=true
+            }
+            tempArr = []
+            tabla.innerHTML=''
+            for(detalle of arrDetalle){
+                if(detalle.eliminado==0){
+                    let tempRow=document.createElement("tr")
+                    tempRow.innerHTML="<td>"+detalle.descripcion+"</td><td style='text-align: center;'>"+detalle.cantidad+"</td>"+`
+                        <td style="text-align: center;">
+                            <a onclick="eliminarDetalle(${tempArr.length})" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a> 
+                        </td>`
+                    tabla.append(tempRow)
+                }
+
+                tempArr.push({codDetalleNota: detalle.codDetalleNota, descripcion:detalle.descripcion, cantidad:detalle.cantidad, eliminado: detalle.eliminado})
+                
+                detalleHTML.value=JSON.stringify(tempArr);
+            }
+            arrDetalle = tempArr;
+            console.log(arrDetalle)
+        }
+        
+        window.onload= function(e){
+            console.log('documentLoaded')
+            console.log(detalleHTML)
+            try{
+                detalleJSON = JSON.parse(detalleHTML.value)
+            }
+            catch(ex){
+                console.error(ex)
+            }
+            console.log(detalleJSON)
+            for(detalle of detalleJSON){
+                if(detalle.eliminado==0){
+                    let tempRow=document.createElement("tr")
+                    tempRow.innerHTML="<td>"+detalle.descripcion+"</td><td style='text-align: center;'>"+detalle.cantidad+"</td>"+`
+                        <td style="text-align: center;">
+                            <a  onclick="eliminarDetalle(${arrDetalle.length})" class="btn btn-danger btn-sm"><i class="text-light fa fa-trash"></i></a> 
+                        </td>`
+                    tabla.append(tempRow)
+                }
+
+                arrDetalle.push({codDetalleNota: detalle.codDetalleNota, descripcion:detalle.descripcion, cantidad:detalle.cantidad, eliminado: detalle.eliminado})
+                
+                detalleHTML.value=JSON.stringify(arrDetalle);
+            }
+            console.log(arrDetalle)
+
+            
+            detalleHTML.value=JSON.stringify(arrDetalle);
+        }
+    </script>
+{% endblock%} 
