@@ -20,14 +20,31 @@ from InicioDashboard.views import bienvenido,index
 from ventasApp.views import listarBanco, listarMoneda, agregarBanco, agregarMoneda,listarcliente,agregarcliente,editarcliente
 from almacenApp.views import agregarNotaAlmacen, agregarOrdenCompra, editarNotaAlmacen, editarOrdenCompra, eliminarNotaAlmacen, eliminarOrdenCompra, listarNotasAlmacen, listarOrdenesCompra, listarproveedor, agregarproveedor,editarproveedor,eliminarproveedor
 from produccionApp.views import agregarTrabajador, editarTrabajador, eliminarTrabajador, listarTrabajador
+from seguridadApp.views import acceder, editarUsuario, eliminarRol, eliminarUsuario, listarUsuario, salir, listarRol, agregarRol, editarRol , agregarUsuario
 from django.contrib.auth import views
-
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', index,name='home'),
+    # path('home/', index,name='home'),
     path('bienvenido/',bienvenido ,name="bienvenido"), 
+
+# login 
+    path('', acceder,name="login"),
+    path('logout/',salir,name="logout"), 
+
+# Rol
+    path('roles/', listarRol, name="listarRol"),
+    path('roles/add', agregarRol, name="agregarRol"),
+    path('roles/editarRol/<int:id>/',editarRol,name="editarRol"),
+    path('roles/eliminarRol/<int:id>/',eliminarRol,name="eliminarRol"),
+
+# Usuario
+    path('usuarios/', listarUsuario, name="listarUsuario"),
+    path('usuarios/add', agregarUsuario, name="agregarUsuario"),
+    path('usuarios/editarUsuario/<int:id>/',editarUsuario,name="editarUsuario"),
+    path('usuarios/eliminarUsuario/<int:id>/',eliminarUsuario,name="eliminarUsuario"),
+
 # Bancos
     path('bancos/',listarBanco,name="listarBanco"), 
     path('bancos/add',agregarBanco,name="agregarBanco"), 

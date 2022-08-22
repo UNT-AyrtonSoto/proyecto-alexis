@@ -1,0 +1,101 @@
+{% extends 'plantilla.html' %}
+{% block content %}
+    <div class="container">
+        <div class="card card-outline mt-3">
+            <div class="card-header">
+                <h1 class="card-title">ROLES</h1>
+                <a href="{% url 'agregarRol' %}" class="btn btn-sm btn-primary">Nuevo</a>
+            </div>
+            <div class="card-body">
+                {% comment %} 
+                <div class="row">
+                    <div class="col-md-6 pull-right">
+                        <form action="" method="GET">
+                            <div class="input-group">
+                                <input type="text" name="buscar" id="buscar" class="form-control" autofocus placeholder="Buscar" value=""><span class="input-group-btn">
+                                <button class="btn btn-primary"><i class="fa fa-search"></i></button></span>
+                            </div>
+                        </form>
+                    </div>
+                </div> 
+                {% endcomment %}
+
+                <table id="tablaRoles" class="table table-striped mt4" style="width:100%">
+                    <thead class="bg-info text-white">
+                        <tr>
+                            <th>Rol</th>
+                            <th>Descripcion</th>
+                            <th><center>Acciones</center></th>
+                        </tr>
+                    </thead>
+                    {% if page_obj %}
+                    {% for itemRol in page_obj %}
+                    <tr>
+                        <td>{{ itemRol.rol}}</td>
+                        <td>{{ itemRol.descripcion }}</td>
+                        <td style="text-align: center;">
+                            <a href="{% url 'editarRol' itemRol.idRol %}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i> Editar</a>
+                            <a href="#" onclick="eliminarRol('{{itemRol.idRol}}', '{{itemRol.rol}}')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Eliminar</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr style="text-align: center;">
+                        <td colspan="6">
+                            <p>No hay Registros</p>
+                        </td>
+                    </tr>
+                    {% endif %}
+                </table>
+                <div class="pagination">
+                    <span class="step-links">
+                        {% if page_obj.has_previous %}
+                            <a href="?page=1">&laquo; first</a>
+                            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                        {% endif %}
+                
+                        <span class="current">
+                            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                        </span>
+                
+                        {% if page_obj.has_next %}
+                            <a href="?page={{ page_obj.next_page_number }}">siguiente</a>
+                            <a href="?page={{ page_obj.paginator.num_pages }}">anterior &raquo;</a>
+                        {% endif %}
+                    </span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+{% block js %}
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {% if messages %}
+    {% for m in messages %}
+        <script>
+            Swal.fire({
+            "title": "Eliminado",
+            "text":"{{m}}",
+            "icon":"success"
+            })
+        </script>
+    {% endfor %}
+    {% endif %}
+    <script>
+        function eliminarRol(id,rol){
+            Swal.fire({ "title":"¿Realmente desea eliminar Registro?",
+            "text":"Codigo :"+ id + " Rol :" + rol,
+            "icon":"question",
+            "showCancelButton":true,
+            "cancelButtonText":"No",
+            "confirmButtonText":"Si",
+            "reverseButton":true,
+            "confirmButtonColor":"#dc3545"
+            }).then(function(result){ if(result.isConfirmed){
+
+                window.location.href="eliminarRol/"+id+"/" }
+        })
+    }
+</script>
+{% endblock %} 
