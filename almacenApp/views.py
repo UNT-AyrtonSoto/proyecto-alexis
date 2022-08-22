@@ -111,11 +111,6 @@ def editarNotaAlmacen(request,id):
     strDetalle = serializers.serialize("json",detalle)
     if request.method=="POST":
         form=NotaAlmacenForm(request.POST)
-        form.tipoNota = notaAlmacen.tipoNota
-        form.fecha = notaAlmacen.fecha
-        form.motivo = notaAlmacen.motivo
-        form.trabajador = notaAlmacen.codTrabajador
-        form.estado = notaAlmacen.estado
         if form.is_valid():
             tipoNota = form.cleaned_data.get('tipoNota')
             fecha = form.cleaned_data.get('fecha')
@@ -130,31 +125,41 @@ def editarNotaAlmacen(request,id):
             
             # breakpoint()
             
-            notaalmacen = NotaAlmacen()
-            notaalmacen.tipoNota = tipoNota
-            notaalmacen.fecha = fecha
-            notaalmacen.codTrabajador = trabajador
-            notaalmacen.motivo = motivo
-            notaalmacen.estado = estado
-            notaalmacen.eliminado = 0
+            notaAlmacen.tipoNota = tipoNota
+            notaAlmacen.fecha = fecha
+            notaAlmacen.codTrabajador = trabajador
+            notaAlmacen.motivo = motivo
+            notaAlmacen.estado = estado
+            notaAlmacen.eliminado = 0
             # breakpoint()
             
-            notaalmacen.save()
+            notaAlmacen.save()
             
             for detalle in detalleJSON:
-                tempDetalle = DetalleNotaAlmacen(descripcion=detalle['descripcion'],cantidad=detalle['cantidad'],codNotaAlmacen=notaalmacen, eliminado=0)
-                tempDetalle.save()
-            breakpoint()
+                if(detalle.idDetalle==0):
+                    tempDetalle = DetalleNotaAlmacen(descripcion=detalle['descripcion'],cantidad=detalle['cantidad'],codNotaAlmacen=notaAlmacen, eliminado=0)
+                    tempDetalle.save()
+                    breakpoint()
+                else:
+                    tempDetalle = DetalleNotaAlmacen.objects.get(codDetalleNota=detalle['idDetalle'])
+                    tempDetalle.descripcion=detalle['descripcion']
+                    tempDetalle.cantidad=detalle['cantidad']
+                    tempDetalle.save()
             return redirect('listarNotasAlmacen')    
     else:
-        form=NotaAlmacenForm(request.POST)
-        form.tipoNota = notaAlmacen.tipoNota
-        form.fecha = notaAlmacen.fecha
-        form.motivo = notaAlmacen.motivo
-        form.trabajador = notaAlmacen.codTrabajador
-        form.estado = notaAlmacen.estado
-        form.detalle = strDetalle
-        context={"form":form,"detalle":detalle, "strDetalle":strDetalle}
+        
+        initial_dic = {
+            'tipoNota': notaAlmacen.tipoNota,
+            'fecha': notaAlmacen.fecha,
+            'motivo': notaAlmacen.motivo,
+            'trabajador': notaAlmacen.codTrabajador,
+            'estado': notaAlmacen.estado,
+            'detalle': strDetalle,
+            'codVenta': notaAlmacen.codVenta,
+        }
+        
+        form=NotaAlmacenForm(request.POST or None, initial=initial_dic)
+        context={"form":form, "detalle": detalle}
         return render(request, "notasAlmacen/editar.html",context)
 
 def eliminarNotaAlmacen(request,id):

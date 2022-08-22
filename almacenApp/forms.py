@@ -20,6 +20,7 @@ class NotaAlmacenForm(forms.Form):
     trabajador=forms.ModelChoiceField(queryset=Trabajador.objects.all())
     motivo=forms.ModelChoiceField(queryset=MotivoNota.objects.all())
     estado=forms.ModelChoiceField(queryset=EstadoNota.objects.all())
+    codVenta = forms.IntegerField(required=False)
     # class Meta:
     #     model = NotaAlmacen
     #     fields = ['tipoNota','fecha','trabajador','motivo','estado','codVenta','detalle']

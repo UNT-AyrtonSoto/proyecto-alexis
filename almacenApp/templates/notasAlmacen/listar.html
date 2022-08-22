@@ -26,7 +26,7 @@
                             <td>{{ itemnotaalmacen.motivo }}</td>
                             <td style="text-align: center;">
                                 {% comment %} <a href="{% url '' %}" class="btn btn-primary btn-sm"><i class="fa fa-eye"></i></a> {% endcomment %}
-                                {% comment %} <a href="{% url 'editarnotaalmacen' itemnotaalmacen.codNotaAlmacen %}" class="btn btn-success btn-sm"><i class="fa fa-edit"></i></a> {% endcomment %}
+                                <a href="{% url 'editarnotaalmacen' itemnotaalmacen.codNotaAlmacen %}" class="btn btn-success btn-sm"><i class="fa fa-edit"></i></a>
                                 <a href="#" onclick="" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a> 
                             </td>
                         </tr>

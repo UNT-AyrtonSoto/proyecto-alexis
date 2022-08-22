@@ -81,7 +81,7 @@ btnprimary">Guardar</button>
             tempRow.innerHTML="<td>"+descripcion.value+"</td><td>"+cantidad.value+"<td>"
             tabla.append(tempRow)
             
-            arrDetalle.push({descripcion:descripcion.value,cantidad:cantidad.value})
+            arrDetalle.push({idDetalle: 0, descripcion:descripcion.value,cantidad:cantidad.value})
 
             descripcion.value = ""
             cantidad.value=""
@@ -92,12 +92,24 @@ btnprimary">Guardar</button>
         }
 
         
-        document.onload= function(e){
-            detalleJSON = JSON.parse(detalle.value)
+        window.onload= function(e){
+            console.log('documentLoaded')
+            console.log(detalle)
+            try{
+                detalleJSON = JSON.parse(detalle.value).map(e=>e.fields)
+            }
+            catch(ex){
+                console.error(ex)
+            }
             console.log(detalleJSON)
             for(detalle of detalleJSON){
+                let tempRow=document.createElement("tr")
+                tempRow.innerHTML="<td>"+detalle.descripcion+"</td><td>"+detalle.cantidad+"<td>"
+                tabla.append(tempRow)
+
+                arrDetalle.push({idDetalle: detalle.codDetalleNota, descripcion:detalle.descripcion, cantidad:detalle.cantidad})
                 
-                arrDetalle.push({descripcion:detalle.descripcion,cantidad:detalle.cantidad})
+                detalle.value=JSON.stringify(arrDetalle);
             }
             console.log(arrDetalle)
         }
