@@ -13,11 +13,12 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from os import name
 from django.contrib import admin
 from django.urls import path, include
 from InicioDashboard.views import bienvenido,index
 from ventasApp.views import listarBanco, listarMoneda, agregarBanco, agregarMoneda,listarcliente,agregarcliente,editarcliente
-from almacenApp.views import listarproveedor, agregarproveedor,editarproveedor,eliminarproveedor
+from almacenApp.views import agregarNotaAlmacen, editarNotaAlmacen, eliminarNotaAlmacen, listarNotasAlmacen, listarproveedor, agregarproveedor,editarproveedor,eliminarproveedor
 from produccionApp.views import agregarTrabajador, editarTrabajador, eliminarTrabajador, listarTrabajador
 from django.contrib.auth import views
 
@@ -47,5 +48,10 @@ urlpatterns = [
     path('agregarproveedor/',agregarproveedor,name="agregarproveedor"), 
     path('editarproveedor/<int:id>/',editarproveedor,name="editarproveedor"), 
     path('eliminarproveedor/<int:id>/',eliminarproveedor,name="eliminarproveedor"), 
+#NOTAS ALMACEN
+    path('notasalmacen/',listarNotasAlmacen,name='listarNotasAlmacen'),
+    path('notasalmacen/add',agregarNotaAlmacen,name='agregarNotaAlmacen'),
+    path('editarnotaalmacen/<int:id>/',editarNotaAlmacen,name="editarnotaalmacen"), 
+    path('eliminarnotaalmacen/<int:id>/',eliminarNotaAlmacen,name="eliminarnotaalmacen"), 
 ]
 
