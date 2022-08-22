@@ -74,6 +74,6 @@ urlpatterns = [
     path('ordenescompra/',listarOrdenesCompra,name='listarOrdenesCompra'),
     path('ordenescompra/add',agregarOrdenCompra,name='agregarOrdenCompra'),
     path('editarordenescompra/<int:id>/',editarOrdenCompra,name="editarOrdenCompra"), 
-    path('eliminarordenescompra/<int:id>/',eliminarOrdenCompra,name="eliminarOrdenCompra"), 
+    path('eliminarOrdenCompra/<int:id>/',eliminarOrdenCompra,name="eliminarOrdenCompra"), 
 ]
 

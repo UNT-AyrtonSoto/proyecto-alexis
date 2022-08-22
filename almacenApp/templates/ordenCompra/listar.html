@@ -4,7 +4,7 @@
         <div class="card card-outline mt-3" style="width: 70rem;">
             <div class="card-header">
                 <h1 class="card-title">ORDENES DE COMPRA</h1>
-                <a href="{% url 'agregarNotaAlmacen' %}" class='btn btn-sm btnprimary btn-add'><i class='fas fa-plus'></i> NUEVA</a> 
+                <a href="{% url 'agregarOrdenCompra' %}" class='btn btn-sm btnprimary btn-add'><i class='fas fa-plus'></i> NUEVA</a> 
             </div>
             <div class="card-body">
                     <table id="tablasubfamilias" class="table table-striped" style="width:100%">
@@ -20,14 +20,14 @@
                         {% if page_obj  %}
                         {% for itemordencompra in page_obj %}
                         <tr>
-                            <td>{{ itemordencompra.codOrdenCmpra }}</td>
+                            <td>{{ itemordencompra.codOrdenCompra }}</td>
                             <td>{{ itemordencompra.codProveedor }}</td>
                             <td>{{ itemordencompra.fecha }}</td>
                             {% comment %} <td>{{ itemordencompra.total }}</td> {% endcomment %}
                             <td style="text-align: center;">
                                 {% comment %} <a href="{% url '' %}" class="btn btn-primary btn-sm"><i class="fa fa-eye"></i></a> {% endcomment %}
-                                <a href="{% url 'editarnotaalmacen' itemordencompra.codOrdenCmpra %}" class="btn btn-success btn-sm"><i class="fa fa-edit"></i></a>
-                                <a href="#" onclick="eliminarNotaAlmacen({{itemordencompra.codOrdenCmpra}})" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a> 
+                                <a href="{% url 'editarOrdenCompra' itemordencompra.codOrdenCompra %}" class="btn btn-success btn-sm"><i class="fa fa-edit"></i></a>
+                                <a href="#" onclick="eliminarNotaAlmacen({{itemordencompra.codOrdenCompra}})" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a> 
                             </td>
                         </tr>
                         {% endfor %}

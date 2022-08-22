@@ -85,13 +85,13 @@ btnprimary">Guardar</button>
 
         function agregarDetalle(){
             let tempRow=document.createElement("tr")
-            tempRow.innerHTML="<td>"+descripcion.value+"</td><td>"+cantidad.value+"<td><td style='text-align: center;'>S/"+precio.value+"</td>"+`
-                <td style="text-align: center;">
-                    <a onclick="eliminarDetalle(${arrDetalle.length})" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a> 
-                </td>`
+            tempRow.innerHTML=`
+            <td style="text-align: center;">
+                <a onclick="eliminarDetalle(${arrDetalle.length})" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a> 
+            </td>`+"<td>"+descripcion.value+"</td><td>"+cantidad.value+"</td><td style='text-align: center;'>S/"+precio.value+"</td>"+"<td>S/"+parseInt(cantidad.value)*parseInt(precio.value)+"</td>"
             tabla.append(tempRow)
             
-            arrDetalle.push({descripcion:descripcion.value,cantidad:cantidad.value,precio:precio.value})
+            arrDetalle.push({descripcion:descripcion.value,cantidad:cantidad.value,precio:precio.value, subtotal: parseInt(cantidad.value)*parseInt(precio.value)})
 
             descripcion.value = ""
             cantidad.value=""
@@ -112,14 +112,14 @@ btnprimary">Guardar</button>
             for(detalle of arrDetalle){
                 if(detalle.eliminado==0){
                     let tempRow=document.createElement("tr")
-                    tempRow.innerHTML="<td>"+detalle.descripcion+"</td><td style='text-align: center;'>"+detalle.cantidad+"</td><td style='text-align: center;'>S/"+detalle.precio+"</td>"+`
-                        <td style="text-align: center;">
-                            <a onclick="eliminarDetalle(${tempArr.length})" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a> 
-                        </td>`
+                    tempRow.innerHTML=`
+                    <td style="text-align: center;">
+                        <a onclick="eliminarDetalle(${tempArr.length})" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a> 
+                    </td>`+"<td>"+detalle.descripcion+"</td><td style='text-align: center;'>"+detalle.cantidad+"</td><td style='text-align: center;'>S/"+detalle.precio+"</td><td style='text-align: center;'>S/"+detalle.subtotal+"</td>"
                     tabla.append(tempRow)
                 }
 
-                tempArr.push({codDetalleNota: detalle.codDetalleNota, descripcion:detalle.descripcion, cantidad:detalle.cantidad, precio=detalle.precio, eliminado: detalle.eliminado})
+                tempArr.push({codDetalleNota: detalle.codDetalleNota, descripcion:detalle.descripcion, cantidad:detalle.cantidad, precio:detalle.precio, subtotal: parseInt(detalle.cantidad)*parseInt(detalle.precio), eliminado: detalle.eliminado})
                 
                 detalleHTML.value=JSON.stringify(tempArr);
             }

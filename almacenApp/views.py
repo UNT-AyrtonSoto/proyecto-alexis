@@ -1,4 +1,5 @@
 from dataclasses import fields
+from decimal import Decimal
 import json
 from multiprocessing import context
 import pdb
@@ -222,18 +223,27 @@ def agregarOrdenCompra(request):
     context = {'form':form}
     return render(request,"ordencompra/agregar.html",context)     
 
+class DecimalEncoder(json.JSONEncoder):
+    def default(self, obj):
+        # 👇️ if passed in object is instance of Decimal
+        # convert it to a string
+        if isinstance(obj, Decimal):
+            return str(obj)
+        # 👇️ otherwise use the default behavior
+        return json.JSONEncoder.default(self, obj)
+
 def editarOrdenCompra(request,id):
     ordenCompra = OrdenCompra.objects.get(codOrdenCompra=id)
-    detalle = DetalleOrdenCompra.objects.filter(codOrdenCompra=id).values('codDetalleOrdenCompra','codOrdenCompra','descripcion','cantidad','eliminado')
+    detalle = DetalleOrdenCompra.objects.filter(codOrdenCompra=id).values('codDetalleOrdenCompra','codOrdenCompra','descripcion','cantidad','eliminado','precioUnitario')
     # strDetalle = serializers.serialize("json",list(detalle),fields={'descripcion'})
-    strDetalle = json.dumps([dict(item) for item in detalle])
+    strDetalle = json.dumps([dict(item) for item in detalle], cls=DecimalEncoder)
     if request.method=="POST":
         form=OrdenCompraform(request.POST)
         if form.is_valid():
             codTrabajador = form.cleaned_data.get('trabajador')
             codProveedor = form.cleaned_data.get('proveedor')
-            fecha = form.cleaned_data.get('proveedor')
-            estado = form.cleaned_data.get('fecha')
+            fecha = form.cleaned_data.get('fecha')
+            estado = form.cleaned_data.get('estado')
             igv = form.cleaned_data.get('igv')
             descuento = form.cleaned_data.get('descuento')
             observaciones = form.cleaned_data.get('observaciones')
@@ -258,16 +268,15 @@ def editarOrdenCompra(request,id):
             
             for detalle in detalleJSON:
                 if(detalle['codDetalleOrdenCompra']==0):
-                    tempDetalle = DetalleOrdenCompra(descripcion=detalle['descripcion'],cantidad=detalle['cantidad'],codOrdenCompra=OrdenCompra, eliminado=0)
+                    tempDetalle = DetalleOrdenCompra(descripcion=detalle['descripcion'],cantidad=detalle['cantidad'],precioUnitario=detalle['precio'],codOrdenCompra=ordenCompra,codMaterial=None,codProductoProveedor=None, eliminado=0)
                     tempDetalle.save()
                 else:
                     tempDetalle = DetalleOrdenCompra.objects.get(codDetalleOrdenCompra=detalle['codDetalleOrdenCompra'])
-                    tempDetalle.codOrdenCompra=detalle['codOrdenCompra']
                     tempDetalle.descripcion=detalle['descripcion']
                     tempDetalle.cantidad=detalle['cantidad']
-                    tempDetalle.precioUnitario=detalle['precioUnitario']
-                    tempDetalle.codMaterial=detalle['codMaterial']
-                    tempDetalle.codProductoProveedor=detalle['codProductoProveedor']
+                    tempDetalle.precioUnitario=detalle['precio']
+                    # tempDetalle.codMaterial= detalle['codMaterial'] or None
+                    # tempDetalle.codProductoProveedor= detalle['codProductoProveedor'] or None
                     tempDetalle.eliminado=detalle['eliminado']
                     tempDetalle.save()
             return redirect('listarOrdenesCompra')    

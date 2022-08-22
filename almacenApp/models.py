@@ -50,7 +50,7 @@ class IGV(models.Model):
     activo=models.BooleanField(default=True)
     
     def __str__(self) -> str:
-        return self.anio +"("+self.porcentaje+")"
+        return f"{self.anio} ({self.porcentaje*100}%)"
 class NotaAlmacen(models.Model):
     codNotaAlmacen=models.AutoField(primary_key=True)
     tipoNota=models.CharField(max_length=1)
@@ -77,7 +77,7 @@ class OrdenCompra(models.Model):
     estado=models.ForeignKey('EstadoOrdenCompra',on_delete=models.CASCADE)
     igv=models.ForeignKey('IGV', on_delete=models.CASCADE)
     descuento=models.DecimalField(null=True,decimal_places=2,max_digits=8)
-    observaciones=models.TextField();
+    observaciones=models.TextField(null=True);
     eliminado=models.BooleanField(default=False)
     
 class DetalleOrdenCompra(models.Model):
