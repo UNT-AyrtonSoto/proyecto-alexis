@@ -74,8 +74,9 @@
 										<div class="user-box">
 											<div class="avatar-lg"><img src="{% static '/img/profile.jpg' %}" alt="image profile" class="avatar-img rounded"></div>
 											<div class="u-text">
-												<h4>Hizrian</h4>
-												<p class="text-muted">hello@example.com</p><a href="" class="btn btn-xs btn-secondary btn-sm">View Profile</a>
+												<h4>{{user.username}}</h4>
+												<p class="text-muted">{{user.email}}</p>
+												<!-- <a href="" class="btn btn-xs btn-secondary btn-sm">View Profile</a> -->
 											</div>
 										</div>
 									</li>
@@ -103,14 +104,14 @@
 						<div class="info">
 							<a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
 								<span>
-									Hizrian
+									{{user.username}}
 									<span class="user-level">Administrator</span>
-									<span class="caret"></span>
+									<!-- <span class="caret"></span> -->
 								</span>
 							</a>
 							<div class="clearfix"></div>
 
-							<div class="collapse in" id="collapseExample">
+							<!-- <div class="collapse in" id="collapseExample">
 								<ul class="nav">
 									<li>
 										<a href="#profile">
@@ -119,7 +120,7 @@
 									</li>
 									
 								</ul>
-							</div>
+							</div> -->
 						</div>
 					</div>
 					<ul class="nav nav-primary">
@@ -127,7 +128,7 @@
 							<span class="sidebar-mini-icon">
 								<i class="fa fa-ellipsis-h"></i>
 							</span>
-							<h4 class="text-section">Components</h4>
+							<h4 class="text-section">MANTENEDORES </h4>
 						</li>
 						<li class="nav-item">
 							<a data-toggle="collapse" href="#sidebarLayouts">
