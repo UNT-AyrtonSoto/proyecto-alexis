@@ -4,7 +4,7 @@
 <div class="container">
     <div class="card mx-4 my-4">
         <div class="card-header card-info">
-            <h1 class="card-title">EDITAR ORDEN COMPRA</h1>
+            <h1 class="card-title">EDITAR NOTA ALMACEN</h1>
         </div>
         <div class="card-body">
             <form method="post">
@@ -16,17 +16,13 @@
                     </div>
                     <div class="col-12">
                         <div class="row">
-                            <div class="col-4">
+                            <div class="col-5">
                                 <label for="descripcionDetalle">Descripcion</label>
                                 <input class="form-control" id="descripcionDetalle"/>
                             </div>
-                            <div class="col-3">
+                            <div class="col-5">
                                 <label for="cantidadDetalle">Cantidad</label>
                                 <input class="form-control" type="number" id="cantidadDetalle"/>
-                            </div>
-                            <div class="col-3">
-                                <label for="precioDetalle">Precio</label>
-                                <input class="form-control" type="number" id="precioDetalle"/>
                             </div>
                             <div class="col-2 d-flex py-3">
                                 <button class="btn btn-sm btn-primary align-center" type="button" onclick="agregarDetalle()">Agregar</button>
@@ -36,11 +32,9 @@
                     <div class="col-12">
                         <table class="table w-100">
                             <thead>
-                                <th> * </th>
                                 <th>Descripcion</th>
-                                <th>Cantidad</th>
-                                <th>Precio</th>
-                                <th>Subtotal</th>
+                                <th><center>Cantidad</center></th>
+                                <th><center>Eliminar</center></th>
                             </thead>
                             <tbody id="tablaDetalle">
                             </tbody>
@@ -81,22 +75,20 @@ btnprimary">Guardar</button>
         tabla=document.getElementById("tablaDetalle")
         descripcion=document.getElementById("descripcionDetalle")
         cantidad=document.getElementById("cantidadDetalle")
-        precio=document.getElementById("precioDetalle")
         detalleHTML = document.getElementById("id_detalle")
 
         function agregarDetalle(){
             let tempRow=document.createElement("tr")
-            tempRow.innerHTML=`
-            <td style="text-align: center;">
-                <a href="#" onclick="eliminarDetalle(${arrDetalle.length})" class="btn btn-danger btn-sm"><i class="text-light fa fa-trash"></i></a> 
-            </td>`+"<td>"+descripcion.value+"</td><td style='text-align: center;'>"+cantidad.value+"</td><td style='text-align: center;'>S/"+precio.value+"</td><td style='text-align: center;'>S/"+parseInt(cantidad.value)*parseInt(precio.value)+"</td>"
+            tempRow.innerHTML="<td>"+descripcion.value+"</td><td style='text-align: center;'>"+cantidad.value+"</td>"+`
+                <td style="text-align: center;">
+                    <a href="#" onclick="eliminarDetalle(${arrDetalle.length})" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a> 
+                </td>`
             tabla.append(tempRow)
             
-            arrDetalle.push({codDetalleOrdenCompra: 0, descripcion:descripcion.value,cantidad:cantidad.value,precio:precio.value, subtotal: parseInt(cantidad.value)*parseInt(precio.value), eliminado:0})
+            arrDetalle.push({codDetalleNota: 0, descripcion:descripcion.value,cantidad:cantidad.value,eliminado:0})
 
             descripcion.value = ""
             cantidad.value=""
-            precio.value=""
             
             detalleHTML.value=JSON.stringify(arrDetalle);
             
@@ -115,14 +107,14 @@ btnprimary">Guardar</button>
             for(detalle of arrDetalle){
                 if(detalle.eliminado==0){
                     let tempRow=document.createElement("tr")
-                    tempRow.innerHTML=`
-                    <td style="text-align: center;">
-                        <a onclick="eliminarDetalle(${tempArr.length})" class="btn btn-danger btn-sm"><i class="text-light fa fa-trash"></i></a> 
-                    </td>`+"<td>"+detalle.descripcion+"</td><td style='text-align: center;'>"+detalle.cantidad+"</td><td style='text-align: center;'>S/"+detalle.precio+"</td><td style='text-align: center;'>S/"+parseInt(detalle.cantidad)*parseInt(detalle.precio)+"</td>"
+                    tempRow.innerHTML="<td>"+detalle.descripcion+"</td><td style='text-align: center;'>"+detalle.cantidad+"</td>"+`
+                        <td style="text-align: center;">
+                            <a onclick="eliminarDetalle(${tempArr.length})" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a> 
+                        </td>`
                     tabla.append(tempRow)
                 }
 
-                tempArr.push({codDetalleOrdenCompra: detalle.codDetalleOrdenCompra, descripcion:detalle.descripcion, cantidad:detalle.cantidad, precio:detalle.precio, subtotal: parseInt(detalle.cantidad)*parseInt(detalle.precio), eliminado: detalle.eliminado})
+                tempArr.push({codDetalleNota: detalle.codDetalleNota, descripcion:detalle.descripcion, cantidad:detalle.cantidad, eliminado: detalle.eliminado})
                 
                 detalleHTML.value=JSON.stringify(tempArr);
             }
@@ -143,14 +135,14 @@ btnprimary">Guardar</button>
             for(detalle of detalleJSON){
                 if(detalle.eliminado==0){
                     let tempRow=document.createElement("tr")
-                    tempRow.innerHTML=`
-                    <td style="text-align: center;">
-                        <a  onclick="eliminarDetalle(${arrDetalle.length})" class="btn btn-danger btn-sm"><i class="text-light fa fa-trash"></i></a> 
-                    </td>`+"<td>"+detalle.descripcion+"</td><td style='text-align: center;'>"+detalle.cantidad+"</td><td style='text-align: center;'>S/"+detalle.precioUnitario+"</td><td style='text-align: center;'>S/"+parseInt(detalle.cantidad)*parseInt(detalle.precioUnitario)+"</td>"
+                    tempRow.innerHTML="<td>"+detalle.descripcion+"</td><td style='text-align: center;'>"+detalle.cantidad+"</td>"+`
+                        <td style="text-align: center;">
+                            <a  onclick="eliminarDetalle(${arrDetalle.length})" class="btn btn-danger btn-sm"><i class="text-light fa fa-trash"></i></a> 
+                        </td>`
                     tabla.append(tempRow)
                 }
 
-                arrDetalle.push({codDetalleOrdenCompra: detalle.codDetalleOrdenCompra, descripcion:detalle.descripcion, cantidad:detalle.cantidad, precio: detalle.precioUnitario, subtotal: parseInt(detalle.cantidad)*parseInt(detalle.precioUnitario), eliminado: detalle.eliminado})
+                arrDetalle.push({codDetalleNota: detalle.codDetalleNota, descripcion:detalle.descripcion, cantidad:detalle.cantidad, eliminado: detalle.eliminado})
                 
                 detalleHTML.value=JSON.stringify(arrDetalle);
             }

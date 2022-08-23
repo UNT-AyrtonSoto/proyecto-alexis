@@ -3,31 +3,37 @@
 <div class="container">
         <div class="card card-outline mt-3" style="width: 70rem;">
             <div class="card-header">
-                <h1 class="card-title">ORDENES DE COMPRA</h1>
-                <a href="{% url 'agregarOrdenCompra' %}" class='btn btn-sm btnprimary btn-add'><i class='fas fa-plus'></i> NUEVA</a> 
+                <h1 class="card-title">PEDIDOS</h1>
+                <a href="{% url 'agregarPedido' %}" class='btn btn-sm btnprimary btn-add'><i class='fas fa-plus'></i> NUEVA</a> 
             </div>
             <div class="card-body">
                     <table id="tablasubfamilias" class="table table-striped" style="width:100%">
                         <thead class="bg-info ">
                             <tr>
                                 <th>Codigo</th>
-                                <th>Proveedor</th>
-                                <th>Fecha</th>
-                                {% comment %} <th>Total</th> {% endcomment %}
-                                <th>Acción</th>
+                                <th>Cliente</th>
+                                <th>Estado</th>
+                                <th>Tipo</th>
+                                <th>Fecha Registro</th>
+                                <th>Fecha Entrega</th>
+                                <th>Acciones</th>
                             </tr>
                         </thead>
                         {% if page_obj  %}
-                        {% for itemordencompra in page_obj %}
+                        {% for itempedido in page_obj %}
                         <tr>
-                            <td>{{ itemordencompra.codOrdenCompra }}</td>
-                            <td>{{ itemordencompra.codProveedor }}</td>
-                            <td>{{ itemordencompra.fecha }}</td>
-                            {% comment %} <td>{{ itemordencompra.total }}</td> {% endcomment %}
+                            <td>{{ itempedido.codNotaAlmacen }}</td>
+                            <td>{{ itempedido.codNotaAlmacen }}</td>
+                            <td>{{ itempedido.codNotaAlmacen }}</td>
+                            <td>{{ itempedido.codNotaAlmacen }}</td>
+                            <td>{{ itempedido.codNotaAlmacen }}</td>
+                            <td>{{ itempedido.fecha }}</td>
+                            <td>{{ itempedido.tipoNota }}</td>
+                            <td>{{ itempedido.motivo }}</td>
                             <td style="text-align: center;">
                                 {% comment %} <a href="{% url '' %}" class="btn btn-primary btn-sm"><i class="fa fa-eye"></i></a> {% endcomment %}
-                                <a href="{% url 'editarOrdenCompra' itemordencompra.codOrdenCompra %}" class="btn btn-success btn-sm"><i class="fa fa-edit"></i></a>
-                                <a href="#" onclick="eliminarNotaAlmacen({{itemordencompra.codOrdenCompra}})" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a> 
+                                <a href="{% url 'editarnotaalmacen' itempedido.codNotaAlmacen %}" class="btn btn-success btn-sm"><i class="fa fa-edit"></i></a>
+                                <a href="#" onclick="eliminarNotaAlmacen({{itempedido.codNotaAlmacen}})" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a> 
                             </td>
                         </tr>
                         {% endfor %}
@@ -87,7 +93,7 @@
         })
             .then(function (result) {
                 if (result.isConfirmed) {
-                    window.location.href = "/eliminarOrdenCompra/" + id + "/"
+                    window.location.href = "/eliminarnotaalmacen/" + id + "/"
                 }
             })
     }

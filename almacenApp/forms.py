@@ -32,4 +32,5 @@ class OrdenCompraform(forms.Form):
     fecha=forms.DateField()
     descuento = forms.DecimalField(decimal_places=2,max_digits=8)
     estado = forms.ModelChoiceField(queryset=EstadoOrdenCompra.objects.all())
-    observaciones = forms.Textarea()
+    observaciones = forms.CharField(required=False)
+    detalle=forms.CharField(widget=forms.HiddenInput(), required=False)

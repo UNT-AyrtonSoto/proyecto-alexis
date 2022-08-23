@@ -10,6 +10,7 @@ def index(request):
     return render(request,"index.html")
 
 def bienvenido(request):
+    request.user
     return render(request,"bienvenido.html")
 
 
