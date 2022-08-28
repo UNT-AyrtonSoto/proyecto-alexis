@@ -1,3 +1,4 @@
-almacenApp/migrations/
-ventasApp/migrations/
-produccionApp/migrations/
+almacenApp/migrations/*
+ventasApp/migrations/*
+produccionApp/migrations/*
+seguridadApp/migrations/*

@@ -102,7 +102,6 @@ def agregarNotaAlmacen(request):
             for detalle in detalleJSON:
                 tempDetalle = DetalleNotaAlmacen(descripcion=detalle['descripcion'],cantidad=detalle['cantidad'],codNotaAlmacen=notaalmacen, eliminado=0)
                 tempDetalle.save()
-            breakpoint()
             return redirect('listarNotasAlmacen')    
         else:
             form = NotaAlmacenForm()
@@ -216,7 +215,6 @@ def agregarOrdenCompra(request):
             for detalle in detalleJSON:
                 tempDetalle = DetalleOrdenCompra(descripcion=detalle['descripcion'],cantidad=detalle['cantidad'],precioUnitario=detalle['precio'],codMaterial=None,codProductoProveedor=None,codOrdenCompra=ordencompra, eliminado=0)
                 tempDetalle.save()
-            breakpoint()
             return redirect('listarOrdenesCompra')    
         else:
             form = OrdenCompraform()
