@@ -189,7 +189,7 @@ def editarPedido(request,id):
             pedido.save()
             
             for detalle in detalleJSON:
-                if(detalle['codDetalleOrdenCompra']==0):
+                if(detalle['codDetallePedido']==0):
                     tempDetalle = DetallePedido(descripcion=detalle['descripcion'],cantidad=detalle['cantidad'],codPedido=pedido, eliminado=0)
                     tempDetalle.save()
                 else:
@@ -198,26 +198,23 @@ def editarPedido(request,id):
                     tempDetalle.cantidad=detalle['cantidad']
                     tempDetalle.eliminado=detalle['eliminado']
                     tempDetalle.save()
-            return redirect('listarOrdenesCompra')    
+            return redirect('listarPedidos')    
     else:
         
         initial_dic = {
-            'documentoIdentidad': pedido.codTrabajador,
-            'nombres': pedido.codProveedor,
-            'igv': pedido.igv,
-            'fecha': pedido.fecha,
-            'descuento': pedido.descuento,
+            'documentoIdentidad': pedido.documentoCliente,
+            'nombres': pedido.nombreCliente,
+            'fechaEntrega': pedido.fechaEntrega,
             'estado': pedido.estado,
-            'observaciones': pedido.observaciones,
             'detalle': strDetalle,
         }
         
         form=PedidoForm(request.POST or None, initial=initial_dic)
         context={"form":form, "detalle": detalle}
-        return render(request, "ordenCompra/editar.html",context)
+        return render(request, "pedidos/editar.html",context)
 
 def eliminarPedido(request,id):
-    ordencompra = Pedido.objects.get(codOrdenCompra=id)
+    ordencompra = Pedido.objects.get(codPedido=id)
     ordencompra.eliminado = True
     ordencompra.save()
-    return redirect("listarOrdenesCompra")
+    return redirect("listarPedidos")

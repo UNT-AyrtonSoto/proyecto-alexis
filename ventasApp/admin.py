@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Banco, Moneda, CuentaBancaria, Cliente, DocumentoIdentidad
+from .models import Banco, EstadoPedido, Moneda, CuentaBancaria, Cliente, DocumentoIdentidad
 
 class BancoAdmin(admin.ModelAdmin):
     list_display= ("idBanco","nombre")
@@ -26,3 +26,4 @@ admin.site.register(Moneda)
 admin.site.register(CuentaBancaria)
 admin.site.register(Cliente)   
 admin.site.register(DocumentoIdentidad)
+admin.site.register(EstadoPedido)
