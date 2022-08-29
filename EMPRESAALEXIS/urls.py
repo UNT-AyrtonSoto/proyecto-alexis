@@ -20,7 +20,7 @@ from InicioDashboard.views import bienvenido,index
 from ventasApp.views import listarBanco, listarMoneda, agregarBanco, agregarMoneda,listarcliente,agregarcliente,editarcliente
 from almacenApp.views import agregarNotaAlmacen, agregarOrdenCompra, editarNotaAlmacen, editarOrdenCompra, eliminarNotaAlmacen, eliminarOrdenCompra, listarNotasAlmacen, listarOrdenesCompra, listarproveedor, agregarproveedor,editarproveedor,eliminarproveedor
 from produccionApp.views import agregarTrabajador, editarTrabajador, eliminarTrabajador, listarTrabajador
-from seguridadApp.views import acceder, editarUsuario, eliminarRol, eliminarUsuario, listarUsuario, salir, listarRol, agregarRol, editarRol , agregarUsuario
+from seguridadApp.views import acceder, reestablecerUsuario, eliminarRol, eliminarUsuario, listarUsuario, salir, listarRol, agregarRol, editarRol , agregarUsuario, datosPersonales
 from django.contrib.auth import views
 
 
@@ -42,8 +42,9 @@ urlpatterns = [
 # Usuario
     path('usuarios/', listarUsuario, name="listarUsuario"),
     path('usuarios/add', agregarUsuario, name="agregarUsuario"),
-    path('usuarios/editarUsuario/<int:id>/',editarUsuario,name="editarUsuario"),
+    path('usuarios/reestablecerUsuario/<int:id>/',reestablecerUsuario,name="reestablecerUsuario"),
     path('usuarios/eliminarUsuario/<int:id>/',eliminarUsuario,name="eliminarUsuario"),
+    path('usuarios/datosPersonales' , datosPersonales, name="datosPersonales"),
 
 # Bancos
     path('bancos/',listarBanco,name="listarBanco"), 

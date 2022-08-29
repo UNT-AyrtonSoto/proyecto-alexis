@@ -42,12 +42,12 @@
                             <td>{{ itemUsuario.apellidoPaterno }}</td>
                             <td>{{ itemUsuario.apellidoMaterno }}</td>
                             <td>{{ itemUsuario.direccion }}</td>
-                            <td>{{ itemUsuario.correo }}</td>
+                            <td>{{ itemUsuario.email }}</td>
                             <td>{{ itemUsuario.celular }}</td>
                             <td>{{ itemUsuario.rol }}</td>
                             <td style="text-align: center;">
-                                <a href="{% url 'editarUsuario' itemUsuario.idUsuario %}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i> Editar</a>
-                                <a href="#" onclick="eliminarUsuario('{{itemUsuario.idUsuario}}', '{{itemUsuario.dni}}')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Eliminar</a>
+                                <a href="{% url 'reestablecerUsuario' itemUsuario.id %}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i>Reestablecer</a>
+                                <a href="#" onclick="eliminarUsuario('{{itemUsuario.id}}', '{{itemUsuario.dni}}')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Eliminar</a>
                             </td>
                         </tr>
                         {% endfor %}

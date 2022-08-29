@@ -147,4 +147,4 @@ MESSAGE_TAGS = {
     message_constants.ERROR: 'danger',
 }
 
-# AUTH_USER_MODEL = 'seguridadApp.NuevoUsuario'
+AUTH_USER_MODEL = 'seguridadApp.Usuario'

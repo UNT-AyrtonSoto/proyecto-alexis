@@ -20,3 +20,17 @@
     </div>
 </div>
 {% endblock%}
+{% block js %}
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {% if messages %}
+    {% for m in messages %}
+        <script>
+            Swal.fire({
+            "title": "Error",
+            "text":"{{m}}",
+            "icon":"info"
+            })
+        </script>
+    {% endfor %}
+    {% endif %}
+{% endblock%} 

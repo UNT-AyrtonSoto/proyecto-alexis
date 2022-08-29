@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
 from django.core.paginator import Paginator
 from .models import Rol , Usuario
-from .forms import RolForm , UsuarioForm
+from .forms import PasswordForm, RolForm , UsuarioForm , DatosPersonalesForm
 from django.db.models import Q 
 
 # LOGIN
@@ -93,7 +93,7 @@ def listarUsuario(request):
     queryset=request.GET.get("buscar")
     usuarios = Usuario.objects.filter(eliminado=0)
     if queryset:
-        usuarios=Usuario.objects.filter(Q(descripcion__icontains=queryset)).distinct().order_by('-idUsuario').values() 
+        usuarios=Usuario.objects.filter(Q(descripcion__icontains=queryset)).distinct().order_by('-id').values() 
     paginator = Paginator(usuarios, 3)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -113,27 +113,53 @@ def agregarUsuario(request):
                 return render(request,"usuario/agregar.html",context) 
             else:
                 form.save() 
-                return redirect("listarUsuario")           
+                return redirect("listarUsuario")    
+        else:
+            messages.error(request, "Error en la contraseña, asegurese de cumplir con todos los requisitos")    
+            form=UsuarioForm(request.POST)   
+            context={'form':form}
+            return render(request,"usuario/agregar.html",context) 
     form=UsuarioForm()
     context={'form':form}
     return render(request,"usuario/agregar.html",context) 
 
-def editarUsuario(request,id):
-    usuario=Usuario.objects.get(idUsuario=id)
-    if request.method=="POST":
-        form=UsuarioForm(request.POST,instance=usuario)
-        print(form.errors.as_data())
-
-        if form.is_valid():
-            form.save() 
-            return redirect("listarUsuario") 
-    else:
-        form=UsuarioForm(instance=usuario)
-        context={"form":form} 
-        return render(request,"usuario/editar.html",context)
+def reestablecerUsuario(request,id):
+    usuario =Usuario.objects.get(id=id) 
+    usuario.password = "pbkdf2_sha256$320000$hplObCJiW1aQJfmowBunST$cIXMWmTafxAxfRuQQIkDI6PRP0WhFHV1kurygHLINjY="
+    usuario.save()
+    return redirect("listarUsuario") 
 
 def eliminarUsuario(request,id):
-    usuario =Usuario.objects.get(idUsuario=id) 
+    usuario =Usuario.objects.get(id=id) 
     usuario.eliminado = True
     usuario.save()
     return redirect("listarUsuario") 
+
+
+def datosPersonales(request):
+    current_user = request.user
+    usuario=Usuario.objects.get(id=current_user.id)
+    if request.method=="POST":
+        if 'DatosPersonales' in request.POST:
+            form=DatosPersonalesForm(request.POST,instance=usuario)
+            # print(form.errors.as_data())
+            if form.is_valid():
+                form.save() 
+                return redirect("datosPersonales") 
+            
+        if 'CambioPassword' in request.POST:
+            password= PasswordForm(request.POST, instance=usuario)
+            if password.is_valid():
+                password.save() 
+                return redirect("datosPersonales") 
+            else:
+                messages.error(request, "Error en la contraseña, asegurese de cumplir con todos los requisitos")
+                form=DatosPersonalesForm(instance=usuario)
+                password=PasswordForm(request.POST,instance=usuario)
+                context={"form":form , "password":password}
+                return render(request,"usuario/datosPersonales.html",context) 
+    else:
+        form=DatosPersonalesForm(instance=usuario)
+        password = PasswordForm(instance=usuario)
+        context={"form":form , "password":password} 
+        return render(request,"usuario/datosPersonales.html",context)

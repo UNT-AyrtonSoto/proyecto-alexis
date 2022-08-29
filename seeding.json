@@ -1,0 +1,19 @@
+[
+    {
+        "model": "seguridadApp.Rol",
+        "pk": 1,
+        "fields": {
+          "rol": "Administrador del Sistema",
+          "descripcion" : "Modificacion del Usuario"
+        }
+    },
+    {
+      "model": "seguridadApp.Usuario",
+      "pk": 1,
+      "fields": {
+        "username": "admin",
+        "email": "admin@gmail.com",
+        "password" : "pbkdf2_sha256$320000$hplObCJiW1aQJfmowBunST$cIXMWmTafxAxfRuQQIkDI6PRP0WhFHV1kurygHLINjY="
+      }
+  }
+]

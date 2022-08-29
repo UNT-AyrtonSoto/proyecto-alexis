@@ -1,0 +1,56 @@
+{% extends 'plantilla.html' %}
+{% block content %}
+{% load crispy_forms_tags %}
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <div class="card card-info mx-4 my-4">
+                <div class="card-header">
+                    <h1 class="card-title">Actualizar mis datos</h1>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                    {% csrf_token %}
+                    {{ form | crispy}}
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary" name="DatosPersonales">Guardar</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="card card-info mx-4 my-4">
+                <div class="card-header">
+                    <h1 class="card-title">Actualizar contraseña</h1>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                    {% csrf_token %}
+                    {{ password | crispy}}
+                    <div class="d-flex justify-content-end">
+                        
+                        <button type="submit" class="btn btn-primary" name="CambioPassword">Guardar</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+{% endblock content %}
+{% block js %}
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {% if messages %}
+    {% for m in messages %}
+        <script>
+            Swal.fire({
+            "title": "Error",
+            "text":"{{m}}",
+            "icon":"info"
+            })
+        </script>
+    {% endfor %}
+    {% endif %}
+{% endblock%} 
