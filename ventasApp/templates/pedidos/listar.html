@@ -13,8 +13,7 @@
                                 <th>Codigo</th>
                                 <th>Cliente</th>
                                 <th>Estado</th>
-                                <th>Tipo</th>
-                                <th>Fecha Registro</th>
+                                {% comment %} <th>Fecha Registro</th> {% endcomment %}
                                 <th>Fecha Entrega</th>
                                 <th>Acciones</th>
                             </tr>
@@ -22,18 +21,15 @@
                         {% if page_obj  %}
                         {% for itempedido in page_obj %}
                         <tr>
-                            <td>{{ itempedido.codNotaAlmacen }}</td>
-                            <td>{{ itempedido.codNotaAlmacen }}</td>
-                            <td>{{ itempedido.codNotaAlmacen }}</td>
-                            <td>{{ itempedido.codNotaAlmacen }}</td>
-                            <td>{{ itempedido.codNotaAlmacen }}</td>
-                            <td>{{ itempedido.fecha }}</td>
-                            <td>{{ itempedido.tipoNota }}</td>
-                            <td>{{ itempedido.motivo }}</td>
+                            <td>{{ itempedido.codPedido }}</td>
+                            <td>{{ itempedido.nombreCliente }}</td>
+                            <td>{{ itempedido.estado }}</td>
+                            {% comment %} <td>{{ itempedido.fechaRegistro }}</td> {% endcomment %}
+                            <td>{{ itempedido.fechaEntrega }}</td>
                             <td style="text-align: center;">
                                 {% comment %} <a href="{% url '' %}" class="btn btn-primary btn-sm"><i class="fa fa-eye"></i></a> {% endcomment %}
-                                <a href="{% url 'editarnotaalmacen' itempedido.codNotaAlmacen %}" class="btn btn-success btn-sm"><i class="fa fa-edit"></i></a>
-                                <a href="#" onclick="eliminarNotaAlmacen({{itempedido.codNotaAlmacen}})" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a> 
+                                <a href="{% url 'editarPedido' itempedido.codPedido %}" class="btn btn-success btn-sm"><i class="fa fa-edit"></i></a>
+                                <a href="#" onclick="eliminarPedido({{itempedido.codPedido}})" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a> 
                             </td>
                         </tr>
                         {% endfor %}
@@ -80,7 +76,7 @@
 {% endif %}
 
 <script>
-    function eliminarNotaAlmacen(id) {
+    function eliminarPedido(id) {
         Swal.fire({
             "title": "¡Aviso!",
             "text": "¿Realmente desea eliminar Registro?",
@@ -93,7 +89,7 @@
         })
             .then(function (result) {
                 if (result.isConfirmed) {
-                    window.location.href = "/eliminarnotaalmacen/" + id + "/"
+                    window.location.href = "/eliminarPedidos/" + id + "/"
                 }
             })
     }

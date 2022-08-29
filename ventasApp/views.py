@@ -1,7 +1,9 @@
+from decimal import Decimal
+import json
 import pdb
 from django.shortcuts import render, redirect
-from .forms import BancoForm, MonedaForm, ClienteForm
-from .models import Banco, Moneda, Cliente
+from .forms import BancoForm, MonedaForm, ClienteForm, PedidoForm
+from .models import Banco, DetallePedido, Moneda, Cliente, Pedido
 from django.db.models import Q
 from django.core.paginator import Paginator
 from django.contrib import messages 
@@ -108,3 +110,111 @@ def editarcliente(request,id):
         form=ClienteForm(instance=cliente)
         context={"form":form} 
         return render(request,"cliente/editar.html",context)
+    
+#PEDIDOS
+def listarPedidos(request):
+    pedidos = Pedido.objects.filter(eliminado=False)
+    paginator = Paginator(pedidos, 5)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request,"pedidos/listar.html",{'page_obj': page_obj})
+
+def agregarPedido(request):
+    form = PedidoForm()
+    if request.method=="POST":
+        form = PedidoForm(request.POST)
+        if form.is_valid():
+            fechaEntrega = form.cleaned_data.get('fechaEntrega')
+            estado = form.cleaned_data.get('estado')
+            documentoCliente = form.cleaned_data.get('documentoIdentidad')
+            nombreCliente = form.cleaned_data.get('nombres')
+            detalleSTR = form.cleaned_data.get('detalle')
+            
+            # breakpoint()
+            detalleJSON = json.loads(detalleSTR)
+            
+            # breakpoint()
+            
+            pedido = Pedido()
+            pedido.fechaEntrega = fechaEntrega
+            pedido.estado = estado
+            pedido.documentoCliente = documentoCliente
+            pedido.nombreCliente = nombreCliente
+            # breakpoint()
+            
+            pedido.save()
+            
+            for detalle in detalleJSON:
+                tempDetalle = DetallePedido(descripcion=detalle['descripcion'],cantidad=detalle['cantidad'],codPedido=pedido)
+                tempDetalle.save()
+            return redirect('listarPedidos')    
+        else:
+            form = PedidoForm()
+    context = {'form':form}
+    return render(request,"pedidos/agregar.html",context)     
+
+class DecimalEncoder(json.JSONEncoder):
+    def default(self, obj):
+        # 👇️ if passed in object is instance of Decimal
+        # convert it to a string
+        if isinstance(obj, Decimal):
+            return str(obj)
+        # 👇️ otherwise use the default behavior
+        return json.JSONEncoder.default(self, obj)
+
+def editarPedido(request,id):
+    pedido = Pedido.objects.get(codPedido=id)
+    detalle = DetallePedido.objects.filter(codPedido=id).values('codPedido','codDetallePedido','descripcion','cantidad','eliminado')
+    # strDetalle = serializers.serialize("json",list(detalle),fields={'descripcion'})
+    strDetalle = json.dumps([dict(item) for item in detalle], cls=DecimalEncoder)
+    if request.method=="POST":
+        form=PedidoForm(request.POST)
+        if form.is_valid():
+            documentoCliente = form.cleaned_data.get('documentoIdentidad')
+            nombres = form.cleaned_data.get('nombres')
+            fechaEntrega = form.cleaned_data.get('fechaEntrega')
+            estado = form.cleaned_data.get('estado')
+            detalleSTR = form.cleaned_data.get('detalle')
+            
+            # breakpoint()
+            detalleJSON = json.loads(detalleSTR)
+            
+            # breakpoint()
+            
+            pedido.fechaEntrega = fechaEntrega
+            pedido.documentoCliente = documentoCliente
+            pedido.nombreCliente = nombres
+            pedido.estado = estado
+            # breakpoint()
+            pedido.save()
+            
+            for detalle in detalleJSON:
+                if(detalle['codDetallePedido']==0):
+                    tempDetalle = DetallePedido(descripcion=detalle['descripcion'],cantidad=detalle['cantidad'],codPedido=pedido, eliminado=0)
+                    tempDetalle.save()
+                else:
+                    tempDetalle = DetallePedido.objects.get(codDetallePedido=detalle['codDetallePedido'])
+                    tempDetalle.descripcion=detalle['descripcion']
+                    tempDetalle.cantidad=detalle['cantidad']
+                    tempDetalle.eliminado=detalle['eliminado']
+                    tempDetalle.save()
+            return redirect('listarPedidos')    
+    else:
+        
+        initial_dic = {
+            'documentoIdentidad': pedido.documentoCliente,
+            'nombres': pedido.nombreCliente,
+            'fechaEntrega': pedido.fechaEntrega,
+            'estado': pedido.estado,
+            'detalle': strDetalle,
+        }
+        
+        form=PedidoForm(request.POST or None, initial=initial_dic)
+        context={"form":form, "detalle": detalle}
+        return render(request, "pedidos/editar.html",context)
+
+def eliminarPedido(request,id):
+    ordencompra = Pedido.objects.get(codPedido=id)
+    ordencompra.eliminado = True
+    ordencompra.save()
+    return redirect("listarPedidos")

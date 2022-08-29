@@ -4,7 +4,7 @@
 <div class="container">
     <div class="card mx-4 my-4">
         <div class="card-header card-info">
-            <h1 class="card-title">REGISTRAR NOTA ALMACEN</h1>
+            <h1 class="card-title">NUEVO PEDIDO</h1>
         </div>
         <div class="card-body">
             <form method="post">
@@ -17,7 +17,7 @@
                     <div class="col-12">
                         <div class="row">
                             <div class="col-5">
-                                <label for="descripcionDetalle">Descripcion</label>
+                                <label for="descripcionDetalle">Mueble</label>
                                 <input class="form-control" id="descripcionDetalle"/>
                             </div>
                             <div class="col-5">
@@ -41,10 +41,8 @@
                     </div>                    
                 </div>
                 <div class="d-flex justify-content-end">
-                    <a href="{% url 'listarNotasAlmacen' %}" class="btn
-   btnsecondary">Cancelar</a> &nbsp;
-                    <button type="submit" class="btn
-btnprimary">Guardar</button>
+                    <a href="{% url 'listarPedidos' %}" class="btn btnsecondary">Cancelar</a> &nbsp;
+                    <button type="submit" class="btn btnprimary">Guardar</button>
                 </div>
             </form>
         </div>
@@ -77,7 +75,7 @@ btnprimary">Guardar</button>
 
         function eliminarDetalle(position){
             element = arrDetalle[position]
-            if(element.codDetalleNota==0){
+            if(element.codDetallePedido==0){
                 arrDetalle.splice(position,1);
             }
             tempArr = []
@@ -92,7 +90,7 @@ btnprimary">Guardar</button>
                     tabla.append(tempRow)
                 }
 
-                tempArr.push({codDetalleNota: detalle.codDetalleNota, descripcion:detalle.descripcion, cantidad:detalle.cantidad, eliminado: detalle.eliminado})
+                tempArr.push({codDetallePedido: detalle.codDetallePedido, descripcion:detalle.descripcion, cantidad:detalle.cantidad, eliminado: detalle.eliminado})
                 
                 detalleHTML.value=JSON.stringify(tempArr);
             }
@@ -108,7 +106,7 @@ btnprimary">Guardar</button>
                 </td>`
             tabla.append(tempRow)
             
-            arrDetalle.push({descripcion:descripcion.value,cantidad:cantidad.value})
+            arrDetalle.push({codDetallePedido: 0, descripcion:descripcion.value,cantidad:cantidad.value, eliminado: 0})
 
             descripcion.value = ""
             cantidad.value=""

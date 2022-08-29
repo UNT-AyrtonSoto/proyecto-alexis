@@ -60,6 +60,9 @@ class EstadoPedido(models.Model):
     codEstadoPedido=models.AutoField(primary_key=True)
     descripcion=models.CharField(max_length=25)
     eliminado=models.BooleanField(default=False)
+    
+    def __str__(self):
+        return self.descripcion
 
 class Pedido(models.Model):
     codPedido=models.AutoField(primary_key=True)
@@ -67,9 +70,12 @@ class Pedido(models.Model):
     estado=models.ForeignKey('EstadoPedido',on_delete=models.CASCADE)
     documentoCliente = models.CharField(max_length=15)
     nombreCliente = models.CharField(max_length= 75)
+    activo = models.BooleanField(default=True)
+    eliminado=models.BooleanField(default=False)
     
 class DetallePedido(models.Model):
     codDetallePedido = models.AutoField(primary_key=True)
     codPedido = models.ForeignKey('Pedido',on_delete=models.CASCADE)
     descripcion = models.CharField(max_length=35)
     cantidad = models.IntegerField()
+    eliminado=models.BooleanField(default=False)
