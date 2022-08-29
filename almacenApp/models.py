@@ -46,7 +46,7 @@ class EstadoOrdenCompra(models.Model):
     
 class IGV(models.Model):
     anio=models.IntegerField(primary_key=True)
-    porcentaje=models.DecimalField(decimal_places=2,max_digits=8);
+    porcentaje=models.DecimalField(decimal_places=2,max_digits=8)
     activo=models.BooleanField(default=True)
     
     def __str__(self) -> str:
@@ -73,11 +73,11 @@ class OrdenCompra(models.Model):
     codOrdenCompra=models.AutoField(primary_key=True)
     codTrabajador=models.ForeignKey('produccionApp.Trabajador',on_delete=models.CASCADE)
     codProveedor=models.ForeignKey('Proveedor',on_delete=models.CASCADE)
-    fecha=models.DateField();
+    fecha=models.DateField()
     estado=models.ForeignKey('EstadoOrdenCompra',on_delete=models.CASCADE)
     igv=models.ForeignKey('IGV', on_delete=models.CASCADE)
     descuento=models.DecimalField(null=True,decimal_places=2,max_digits=8)
-    observaciones=models.TextField(null=True);
+    observaciones=models.TextField(null=True)
     eliminado=models.BooleanField(default=False)
     
 class DetalleOrdenCompra(models.Model):

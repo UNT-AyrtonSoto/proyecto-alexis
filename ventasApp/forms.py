@@ -39,6 +39,6 @@ class DocumentoIdentidadForms(forms.ModelForm):
 class PedidoForm(forms.Form):
     documentoIdentidad=forms.CharField(max_length=15)
     nombres=forms.CharField(max_length= 75)
-    fechaEntrega = forms.DateField();
+    fechaEntrega = forms.DateField()
     estado = forms.ModelChoiceField(queryset=EstadoPedido.objects.all())
     detalle=forms.CharField(widget=forms.HiddenInput(), required=False)

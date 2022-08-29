@@ -15,5 +15,117 @@
         "email": "admin@gmail.com",
         "password" : "pbkdf2_sha256$320000$hplObCJiW1aQJfmowBunST$cIXMWmTafxAxfRuQQIkDI6PRP0WhFHV1kurygHLINjY="
       }
-  }
+    },
+    {
+      "model": "ventasApp.DocumentoIdentidad",
+      "pk": "DNI",
+      "fields": {
+        "descripcion" : "DOCUMENTO NACIONAL DE IDENTIDAD"
+      }
+    },
+    {
+      "model": "ventasApp.EstadoPedido",
+      "pk": 1,
+      "fields": {
+        "descripcion" : "REGISTRADO"
+      }
+    },
+    {
+      "model": "ventasApp.EstadoPedido",
+      "pk": 2,
+      "fields": {
+        "descripcion" : "PENDIENTE"
+      }
+    },
+    {
+      "model": "ventasApp.EstadoPedido",
+      "pk": 3,
+      "fields": {
+        "descripcion" : "ENTREGADO"
+      }
+    },
+    {
+      "model": "almacenApp.EstadoNota",
+      "pk": 1,
+      "fields": {
+        "descripcion" : "ABIERTA"
+      }
+    },
+    {
+      "model": "almacenApp.EstadoNota",
+      "pk": 2,
+      "fields": {
+        "descripcion" : "CERRADA"
+      }
+    },
+    {
+      "model": "almacenApp.EstadoNota",
+      "pk": 3,
+      "fields": {
+        "descripcion" : "ANULADA"
+      }
+    },
+    {
+      "model": "almacenApp.MotivoNota",
+      "pk": 1,
+      "fields": {
+        "descripcion" : "COMPRA"
+      }
+    },
+    {
+      "model": "almacenApp.MotivoNota",
+      "pk": 2,
+      "fields": {
+        "descripcion" : "VENTA"
+      }
+    },
+    {
+      "model": "almacenApp.MotivoNota",
+      "pk": 3,
+      "fields": {
+        "descripcion" : "PRODUCCION"
+      }
+    },
+    {
+      "model": "almacenApp.MotivoNota",
+      "pk": 4,
+      "fields": {
+        "descripcion" : "FABRICACION"
+      }
+    },
+    {
+      "model": "almacenApp.MotivoNota",
+      "pk": 5,
+      "fields": {
+        "descripcion" : "DEVOLUCION"
+      }
+    },
+    {
+      "model": "almacenApp.EstadoOrdenCompra",
+      "pk": 1,
+      "fields": {
+        "descripcion" : "ABIERTA"
+      }
+    },
+    {
+      "model": "almacenApp.EstadoOrdenCompra",
+      "pk": 2,
+      "fields": {
+        "descripcion" : "CERRADA"
+      }
+    },
+    {
+      "model": "almacenApp.EstadoOrdenCompra",
+      "pk": 3,
+      "fields": {
+        "descripcion" : "ANULADA"
+      }
+    },
+    {
+      "model": "almacenApp.IGV",
+      "pk": 2022,
+      "fields": {
+        "porcentaje" : 0.18
+      }
+    }
 ]
