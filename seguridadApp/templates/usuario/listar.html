@@ -46,7 +46,7 @@
                             <td>{{ itemUsuario.celular }}</td>
                             <td>{{ itemUsuario.rol }}</td>
                             <td style="text-align: center;">
-                                <a href="{% url 'reestablecerUsuario' itemUsuario.id %}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i>Reestablecer</a>
+                                <a href="#" onclick="reestablecerUsuario('{{itemUsuario.id}}', '{{itemUsuario.dni}}')"  class="btn btn-info btn-sm"><i class="fa fa-edit"></i>Reestablecer</a>
                                 <a href="#" onclick="eliminarUsuario('{{itemUsuario.id}}', '{{itemUsuario.dni}}')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Eliminar</a>
                             </td>
                         </tr>
@@ -109,7 +109,22 @@
             }).then(function(result){ if(result.isConfirmed){
 
                 window.location.href="eliminarUsuario/"+id+"/" }
-        })
-    }
+            })
+        }
+
+        function reestablecerUsuario(id,dni){
+            Swal.fire({ "title":"¿Realmente desea reestablecer la contraseña del usuario seleccionado?",
+            "text":"Codigo :"+ id + " DNI :" + dni,
+            "icon":"question",
+            "showCancelButton":true,
+            "cancelButtonText":"No",
+            "confirmButtonText":"Si",
+            "reverseButton":true,
+            "confirmButtonColor":"#dc3545"
+            }).then(function(result){ if(result.isConfirmed){
+
+                window.location.href="reestablecerUsuario/"+id+"/" }
+            })
+        }
 </script>
 {% endblock %} 

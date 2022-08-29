@@ -34,8 +34,11 @@
                         <td>{{ itemRol.rol}}</td>
                         <td>{{ itemRol.descripcion }}</td>
                         <td style="text-align: center;">
-                            <a href="{% url 'editarRol' itemRol.idRol %}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i> Editar</a>
-                            <a href="#" onclick="eliminarRol('{{itemRol.idRol}}', '{{itemRol.rol}}')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Eliminar</a>
+                            
+                            {% if itemRol.idRol != 1 %}
+                                <a href="{% url 'editarRol' itemRol.idRol %}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i> Editar</a>
+                                <a href="#" onclick="eliminarRol('{{itemRol.idRol}}', '{{itemRol.rol}}')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Eliminar</a>
+                            {% endif %}
                         </td>
                     </tr>
                     {% endfor %}

@@ -8,6 +8,14 @@
         }
     },
     {
+        "model": "seguridadApp.Rol",
+        "pk": 2,
+        "fields": {
+          "rol": "Jefe de Taller",
+          "descripcion" : "Gestiona los pedidos"
+        }
+    },
+    {
       "model": "seguridadApp.Usuario",
       "pk": 1,
       "fields": {

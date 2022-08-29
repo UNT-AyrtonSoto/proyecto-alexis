@@ -38,6 +38,7 @@ def salir(request):
 def listarRol(request):
     # roles = Rol.objects.all()
     queryset=request.GET.get("buscar")
+    request.user
     roles = Rol.objects.filter(eliminado=0)
     if queryset:
         roles=Rol.objects.filter(Q(descripcion__icontains=queryset)).distinct().order_by('-idRol').values() 

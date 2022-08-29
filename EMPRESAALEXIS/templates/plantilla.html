@@ -82,6 +82,10 @@
 									</li>
 									<li>
 										<div class="dropdown-divider"></div>
+										<a class="dropdown-item" href="{% url 'datosPersonales' %}">Actualizar Perfil</a>
+									</li>
+									<li>
+										<div class="dropdown-divider"></div>
 										<a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
 									</li>
 								</div>
@@ -102,10 +106,10 @@
 							<img src="{% static '/img/profile.jpg' %}" alt="..." class="avatar-img rounded-circle">
 						</div>
 						<div class="info">
-							<a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
+							<a  href="{% url 'datosPersonales' %}" aria-expanded="true">
 								<span style="color: black;">
 									{{user.username}}
-									<span class="user-level" style="color: black;">Administrator</span>
+									<span class="user-level" style="color: black;">{{user.rol}}</span>
 									<!-- <span class="caret"></span> -->
 								</span>
 							</a>
@@ -153,6 +157,11 @@
 											<span class="sub-item" style="color: black;">Cliente</span>
 										</a>
 									</li>
+									<li>
+										<a href="{% url 'listarPedidos' %}">
+											<span class="sub-item" style="color: black;">Pedidos</span>
+										</a>
+									</li>
 								</ul>
 							</div>
 						</li>
@@ -198,6 +207,7 @@
 								</ul>
 							</div>
 						</li>
+						{% if user.rol_id == 1 %}
 						<li class="nav-item">
 							<a data-toggle="collapse" href="#sideAccesos">
 								<i class="fas fa-cog text-dark"></i>
@@ -219,6 +229,7 @@
 								</ul>
 							</div>
 						</li>
+						{% endif %}
 					</ul>
 				</div>
 			</div>
